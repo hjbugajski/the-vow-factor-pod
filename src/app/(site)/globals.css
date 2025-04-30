@@ -1,0 +1,94 @@
+/* stylelint-disable custom-property-pattern */
+@import 'tailwindcss';
+
+:root {
+  /* pink */
+  --ds-pink-50: #fdf7f9;
+  --ds-pink-100: #fbeff3;
+  --ds-pink-200: #f7dfe8;
+  --ds-pink-300: #f2cedc;
+  --ds-pink-400: #eebed1;
+  --ds-pink-500: #eaaec5;
+  --ds-pink-600: #e69eba;
+  --ds-pink-700: #d25182;
+  --ds-pink-800: #9a2854;
+  --ds-pink-900: #4d142a;
+  --ds-pink-950: #290a16;
+}
+
+@media (color-gamut: p3) {
+  @supports (color: color(display-p3 0 0 0)) {
+    :root {
+      /* pink */
+      --ds-pink-50: color(display-p3 0.992 0.969 0.976);
+      --ds-pink-100: color(display-p3 0.984 0.937 0.953);
+      --ds-pink-200: color(display-p3 0.969 0.875 0.91);
+      --ds-pink-300: color(display-p3 0.949 0.808 0.863);
+      --ds-pink-400: color(display-p3 0.933 0.745 0.82);
+      --ds-pink-500: color(display-p3 0.918 0.682 0.773);
+      --ds-pink-600: color(display-p3 0.902 0.62 0.729);
+      --ds-pink-700: color(display-p3 0.824 0.318 0.51);
+      --ds-pink-800: color(display-p3 0.604 0.157 0.329);
+      --ds-pink-900: color(display-p3 0.302 0.078 0.165);
+      --ds-pink-950: color(display-p3 0.161 0.039 0.086);
+    }
+  }
+}
+
+@theme {
+  /* ----- fonts ----- */
+  --font-serif:
+    var(--font-baskervville), serif, ui-serif, georgia, cambria, 'Times New Roman', times, serif;
+  --font-sans:
+    var(--font-dm-sans), sans-serif, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-display:
+    var(--font-fraunces), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
+    'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-mono: initial;
+
+  /* ----- breakpoints ----- */
+  --breakpoint-xxs: 375px;
+  --breakpoint-xs: 425px;
+  --breakpoint-md-lg: 992px;
+
+  /* ----- colors ----- */
+  --color-*: initial;
+  --color-white: #fff;
+
+  /* pink */
+  --color-pink-50: var(--ds-pink-50);
+  --color-pink-100: var(--ds-pink-100);
+  --color-pink-200: var(--ds-pink-200);
+  --color-pink-300: var(--ds-pink-300);
+  --color-pink-400: var(--ds-pink-400);
+  --color-pink-500: var(--ds-pink-500);
+  --color-pink-600: var(--ds-pink-600);
+  --color-pink-700: var(--ds-pink-700);
+  --color-pink-800: var(--ds-pink-800);
+  --color-pink-900: var(--ds-pink-900);
+  --color-pink-950: var(--ds-pink-950);
+}
+
+@layer base {
+  * {
+    @apply leading-6;
+  }
+
+  *::selection {
+    @apply bg-pink-300 text-pink-900;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    @apply font-display font-semibold text-pink-800;
+  }
+
+  a {
+    @apply text-pink-800;
+  }
+}
