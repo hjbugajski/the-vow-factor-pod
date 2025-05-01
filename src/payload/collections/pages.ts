@@ -219,14 +219,5 @@ export const Pages: CollectionConfig<'pages'> = {
         },
       ],
     },
-    {
-      name: 'sectionedPage',
-      type: 'checkbox',
-      defaultValue: false,
-      admin: {
-        position: 'sidebar',
-        description: 'Check when using section blocks',
-      },
-    },
   ],
 };

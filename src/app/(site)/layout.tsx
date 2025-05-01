@@ -1,12 +1,12 @@
 import type { Metadata, Viewport } from 'next';
-import { DM_Sans, Fraunces } from 'next/font/google';
+import { DM_Sans, Fraunces, Rubik } from 'next/font/google';
 
 import { Navigation } from '@/components/navigation';
 import { cn } from '@/utils/cn';
 
 import './globals.css';
 
-const dmSans = DM_Sans({
+const dmSans = Rubik({
   display: 'swap',
   preload: true,
   variable: '--font-dm-sans',

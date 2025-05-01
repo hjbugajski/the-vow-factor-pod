@@ -158,10 +158,6 @@ export interface PayloadPagesCollection {
         id?: string | null;
       }[]
     | null;
-  /**
-   * Check when using section blocks
-   */
-  sectionedPage?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -326,7 +322,6 @@ export interface PagesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
-  sectionedPage?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;

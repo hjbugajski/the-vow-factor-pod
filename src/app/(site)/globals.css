@@ -92,7 +92,7 @@
 
 @layer base {
   *::selection {
-    @apply bg-pink-300 text-pink-900;
+    @apply bg-pink-300;
   }
 
   html {
@@ -110,7 +110,7 @@
   }
 
   a {
-    @apply text-pink-800 underline-offset-4 hover:not-focus-visible:underline;
+    @apply underline-offset-4 hover:not-focus-visible:underline;
   }
 
   strong {
