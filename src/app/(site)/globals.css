@@ -2,6 +2,8 @@
 @import 'tailwindcss';
 
 :root {
+  --ds-black: #22161b;
+
   /* pink */
   --ds-pink-50: #fdf7f9;
   --ds-pink-100: #fbeff3;
@@ -19,6 +21,8 @@
 @media (color-gamut: p3) {
   @supports (color: color(display-p3 0 0 0)) {
     :root {
+      --ds-black: color(display-p3 0.133 0.086 0.106);
+
       /* pink */
       --ds-pink-50: color(display-p3 0.992 0.969 0.976);
       --ds-pink-100: color(display-p3 0.984 0.937 0.953);
@@ -37,14 +41,13 @@
 
 @theme {
   /* ----- fonts ----- */
-  --font-serif:
-    var(--font-baskervville), serif, ui-serif, georgia, cambria, 'Times New Roman', times, serif;
   --font-sans:
     var(--font-dm-sans), sans-serif, ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   --font-display:
     var(--font-fraunces), ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji',
     'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  --font-serif: initial;
   --font-mono: initial;
 
   /* ----- breakpoints ----- */
@@ -55,6 +58,7 @@
   /* ----- colors ----- */
   --color-*: initial;
   --color-white: #fff;
+  --color-black: var(--ds-black);
 
   /* pink */
   --color-pink-50: var(--ds-pink-50);
@@ -68,15 +72,32 @@
   --color-pink-800: var(--ds-pink-800);
   --color-pink-900: var(--ds-pink-900);
   --color-pink-950: var(--ds-pink-950);
+
+  /* ----- animations ----- */
+  --animate-marquee-slow: marquee 25s linear infinite;
+  --animate-marquee-normal: marquee 15s linear infinite;
+  --animate-marquee-fast: marquee 10s linear infinite;
+
+  /* ----- keyframes ----- */
+  @keyframes marquee {
+    from {
+      transform: translateX(0);
+    }
+
+    to {
+      transform: translateX(-100%);
+    }
+  }
 }
 
 @layer base {
-  * {
-    @apply leading-6;
-  }
-
   *::selection {
     @apply bg-pink-300 text-pink-900;
+  }
+
+  html {
+    font-variation-settings: 'wght' 400;
+    font-optical-sizing: auto;
   }
 
   h1,
@@ -85,10 +106,64 @@
   h4,
   h5,
   h6 {
-    @apply font-display font-semibold text-pink-800;
+    @apply font-display;
   }
 
   a {
-    @apply text-pink-800;
+    @apply text-pink-800 underline-offset-4 hover:not-focus-visible:underline;
   }
+
+  strong {
+    @apply font-bold;
+  }
+}
+
+@utility font-display {
+  font-variation-settings:
+    'SOFT' 100,
+    'WONK' 1;
+  font-optical-sizing: auto;
+  font-weight: 900;
+  font-style: italic;
+  font-stretch: normal;
+  line-height: initial;
+}
+
+@utility font-thin {
+  font-variation-settings: 'wght' 100;
+}
+
+@utility font-extralight {
+  font-variation-settings: 'wght' 200;
+}
+
+@utility font-light {
+  font-variation-settings: 'wght' 300;
+}
+
+@utility font-normal {
+  font-variation-settings: 'wght' 400;
+}
+
+@utility font-medium {
+  font-variation-settings: 'wght' 500;
+}
+
+@utility font-semibold {
+  font-variation-settings: 'wght' 600;
+}
+
+@utility font-bold {
+  font-variation-settings: 'wght' 700;
+}
+
+@utility breakout-full {
+  width: 100dvw;
+  margin-left: calc((100dvw - 100%) / -2);
+}
+
+@utility breakout-section {
+  width: 100dvw;
+  margin-left: calc((100dvw - 100%) / -2);
+  padding-inline: calc((100dvw - 100%) / 2);
 }

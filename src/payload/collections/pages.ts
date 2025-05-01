@@ -8,6 +8,8 @@ import type {
 } from 'payload';
 
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
+import { Hero } from '@/payload/blocks/hero';
+import { Section } from '@/payload/blocks/section';
 import type { PayloadPagesCollection } from '@/payload/payload-types';
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path';
 import { slugify } from '@/utils/slugify';
@@ -146,7 +148,10 @@ export const Pages: CollectionConfig<'pages'> = {
       name: 'content',
       type: 'richText',
       editor: lexicalEditor({
-        features: ({ rootFeatures }) => [...rootFeatures, BlocksFeature({ blocks: [] })],
+        features: ({ rootFeatures }) => [
+          ...rootFeatures,
+          BlocksFeature({ blocks: [Hero, Section] }),
+        ],
       }),
     },
     {
@@ -213,6 +218,15 @@ export const Pages: CollectionConfig<'pages'> = {
           type: 'text',
         },
       ],
+    },
+    {
+      name: 'sectionedPage',
+      type: 'checkbox',
+      defaultValue: false,
+      admin: {
+        position: 'sidebar',
+        description: 'Check when using section blocks',
+      },
     },
   ],
 };

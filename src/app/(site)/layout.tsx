@@ -1,25 +1,24 @@
-import type { Metadata } from 'next';
-import { Baskervville, DM_Sans, Fraunces } from 'next/font/google';
+import type { Metadata, Viewport } from 'next';
+import { DM_Sans, Fraunces } from 'next/font/google';
 
+import { Navigation } from '@/components/navigation';
 import { cn } from '@/utils/cn';
 
 import './globals.css';
 
-const baskervville = Baskervville({
-  subsets: ['latin'],
-  weight: ['400'],
-  style: ['normal'],
-  variable: '--font-baskervville',
-});
 const dmSans = DM_Sans({
-  subsets: ['latin'],
   display: 'swap',
+  preload: true,
   variable: '--font-dm-sans',
+  weight: 'variable',
 });
 const fraunces = Fraunces({
-  subsets: ['latin'],
+  axes: ['SOFT', 'WONK', 'opsz'],
   display: 'swap',
+  preload: true,
+  style: 'italic',
   variable: '--font-fraunces',
+  weight: 'variable',
 });
 
 export const metadata: Metadata = {
@@ -27,18 +26,24 @@ export const metadata: Metadata = {
   description: 'The Vow Factor Podcast',
 };
 
+export const viewport: Viewport = {
+  themeColor: '#22161b',
+};
+
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   return (
     <html
       lang="en"
       className={cn(
-        'bg-pink-50 text-pink-900 antialiased',
-        baskervville.variable,
+        'h-full bg-pink-50 text-pink-900 antialiased',
         dmSans.variable,
         fraunces.variable,
       )}
     >
-      <body>{children}</body>
+      <body className="relative flex h-full flex-col">
+        <Navigation />
+        <div className="mt-20 flex flex-1 flex-col">{children}</div>
+      </body>
     </html>
   );
 }

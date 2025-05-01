@@ -41,6 +41,7 @@
     "@payloadcms/storage-s3": "3.36.0",
     "@payloadcms/ui": "3.36.0",
     "@t3-oss/env-nextjs": "^0.13.0",
+    "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
     "graphql": "^16.11.0",
     "jsonwebtoken": "^9.0.2",

@@ -7,6 +7,7 @@ import { getPayload } from 'payload';
 import { metadata } from '@/app/(site)/layout';
 import { LivePreviewListener } from '@/components/live-preview-listener';
 import { RichText } from '@/components/rich-text';
+import { cn } from '@/utils/cn';
 import { pageTitle } from '@/utils/page-title';
 import config from '@payload-config';
 
@@ -68,7 +69,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto mt-20 w-full max-w-7xl px-6 py-12">
+    <main className={cn('mx-auto w-full max-w-7xl px-6', !page.sectionedPage && 'py-12')}>
       {draft ? <LivePreviewListener /> : null}
       <RichText data={page.content} />
     </main>

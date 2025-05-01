@@ -158,6 +158,10 @@ export interface PayloadPagesCollection {
         id?: string | null;
       }[]
     | null;
+  /**
+   * Check when using section blocks
+   */
+  sectionedPage?: boolean | null;
   updatedAt: string;
   createdAt: string;
   _status?: ('draft' | 'published') | null;
@@ -322,6 +326,7 @@ export interface PagesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  sectionedPage?: T;
   updatedAt?: T;
   createdAt?: T;
   _status?: T;
@@ -435,6 +440,42 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadHeroBlock".
+ */
+export interface PayloadHeroBlock {
+  image: string | PayloadImagesCollection;
+  mobileImage: string | PayloadImagesCollection;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'hero';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadSectionBlock".
+ */
+export interface PayloadSectionBlock {
+  backgroundColor: 'default' | 'pink';
+  content: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'section';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

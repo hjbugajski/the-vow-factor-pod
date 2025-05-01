@@ -10,7 +10,7 @@ export const horizontalRuleConverter: JSXConverter<SerializedHorizontalRuleNode>
   <hr
     className={
       overrideClass ||
-      cn('my-6 border-t-2 border-t-forever-200 first:mt-0 last:mb-0', additionalClass)
+      cn('my-16 border-t-12 border-dotted border-pink-300 first:mt-0 last:mb-0', additionalClass)
     }
   />
 );

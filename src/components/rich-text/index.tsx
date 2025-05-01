@@ -15,6 +15,8 @@ import type {
   SerializedLexicalNodeWithParent,
 } from '@payloadcms/richtext-lexical/react';
 
+import { HeroBlock } from '@/components/blocks/hero';
+import { SectionBlock } from '@/components/blocks/section';
 import { blockQuoteConverter } from '@/components/rich-text/block-quote-converter';
 import { headingConverter } from '@/components/rich-text/heading-converter';
 import { horizontalRuleConverter } from '@/components/rich-text/horizontal-rule-converter';
@@ -23,6 +25,7 @@ import { listConverter } from '@/components/rich-text/list-converter';
 import { listitemConverter } from '@/components/rich-text/listitem-converter';
 import { paragraphConverter } from '@/components/rich-text/paragraph-converter';
 import { textConverter } from '@/components/rich-text/text-converter';
+import type { PayloadHeroBlock, PayloadSectionBlock } from '@/payload/payload-types';
 import { cn } from '@/utils/cn';
 
 export type JSXConverter<
@@ -46,7 +49,10 @@ export type JSXConverter<
   parent: SerializedLexicalNodeWithParent;
 }) => React.ReactNode;
 
-type NodeType = DefaultNodeTypes | SerializedBlockNode | SerializedInlineBlockNode;
+type NodeType =
+  | DefaultNodeTypes
+  | SerializedBlockNode<PayloadHeroBlock | PayloadSectionBlock>
+  | SerializedInlineBlockNode;
 
 type Classes = {
   [nodeType in Exclude<NonNullable<NodeType['type']>, 'block' | 'inlineBlock'>]?: string;
@@ -93,7 +99,10 @@ const jsxConverters: JSXConvertersFunction<NodeType> = () => ({
   list: listConverter,
   listitem: listitemConverter,
   link: linkConverter,
-  blocks: {},
+  blocks: {
+    hero: ({ node }) => <HeroBlock {...node.fields} />,
+    section: ({ node }) => <SectionBlock {...node.fields} />,
+  },
 });
 
 function convertLexicalToJsx({
@@ -174,6 +183,7 @@ function convertLexicalToJsx({
     const reactNode = converter({
       additionalClass: cn(additionalClass, formatClass, indentClass),
       childIndex: i,
+      // @ts-expect-error – valid types
       converters,
       node,
       nodesToJSX: (args) =>
