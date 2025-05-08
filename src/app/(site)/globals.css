@@ -1,6 +1,8 @@
 /* stylelint-disable custom-property-pattern */
 @import 'tailwindcss';
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 :root {
   --ds-black: #22161b;
 
@@ -53,6 +55,7 @@
   /* ----- breakpoints ----- */
   --breakpoint-xxs: 375px;
   --breakpoint-xs: 425px;
+  --breakpoint-md: 768px;
   --breakpoint-md-lg: 992px;
 
   /* ----- colors ----- */
@@ -77,6 +80,7 @@
   --animate-marquee-slow: marquee 25s linear infinite;
   --animate-marquee-normal: marquee 15s linear infinite;
   --animate-marquee-fast: marquee 10s linear infinite;
+  --ease-navigation: cubic-bezier(0.75, 0, 0.25, 1);
 
   /* ----- keyframes ----- */
   @keyframes marquee {
@@ -91,12 +95,12 @@
 }
 
 @layer base {
-  *::selection {
-    @apply bg-pink-300;
+  * {
+    @apply dark:text-pink-300;
   }
 
   html {
-    font-variation-settings: 'wght' 400;
+    font-variation-settings: 'wght' 450;
     font-optical-sizing: auto;
   }
 
@@ -110,7 +114,7 @@
   }
 
   a {
-    @apply underline-offset-4 hover:not-focus-visible:underline;
+    @apply rounded decoration-dotted decoration-3 underline-offset-6 transition duration-300 hover:not-focus-visible:underline focus:outline-none focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 dark:focus-visible:ring-pink-300 dark:focus-visible:ring-offset-pink-950;
   }
 
   strong {
@@ -130,31 +134,31 @@
 }
 
 @utility font-thin {
-  font-variation-settings: 'wght' 100;
+  font-variation-settings: 'wght' 150;
 }
 
 @utility font-extralight {
-  font-variation-settings: 'wght' 200;
+  font-variation-settings: 'wght' 250;
 }
 
 @utility font-light {
-  font-variation-settings: 'wght' 300;
+  font-variation-settings: 'wght' 350;
 }
 
 @utility font-normal {
-  font-variation-settings: 'wght' 400;
+  font-variation-settings: 'wght' 450;
 }
 
 @utility font-medium {
-  font-variation-settings: 'wght' 500;
+  font-variation-settings: 'wght' 550;
 }
 
 @utility font-semibold {
-  font-variation-settings: 'wght' 600;
+  font-variation-settings: 'wght' 650;
 }
 
 @utility font-bold {
-  font-variation-settings: 'wght' 700;
+  font-variation-settings: 'wght' 750;
 }
 
 @utility breakout-full {

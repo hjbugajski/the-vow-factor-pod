@@ -1,12 +1,18 @@
-import type { Metadata, Viewport } from 'next';
-import { DM_Sans, Fraunces, Rubik } from 'next/font/google';
+import type { Metadata } from 'next';
+import { unstable_cache } from 'next/cache';
+import { DM_Sans, Fraunces } from 'next/font/google';
+import type { GlobalSlug } from 'payload';
+import { getPayload } from 'payload';
 
+import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
+import type { PayloadFooterGlobal, PayloadNavigationGlobal } from '@/payload/payload-types';
+import payloadConfig from '@/payload/payload.config';
 import { cn } from '@/utils/cn';
 
 import './globals.css';
 
-const dmSans = Rubik({
+const dmSans = DM_Sans({
   display: 'swap',
   preload: true,
   variable: '--font-dm-sans',
@@ -26,23 +32,34 @@ export const metadata: Metadata = {
   description: 'The Vow Factor Podcast',
 };
 
-export const viewport: Viewport = {
-  themeColor: '#22161b',
+const fetchGlobal = async (slug: GlobalSlug) => {
+  const payload = await getPayload({ config: payloadConfig });
+
+  return payload.findGlobal({ slug });
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+const fetchCachedGlobal = <T,>(slug: GlobalSlug) =>
+  unstable_cache(fetchGlobal, [slug], {
+    tags: [`global_${slug}`],
+  })(slug) as Promise<T>;
+
+export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+  const navigation = await fetchCachedGlobal<PayloadNavigationGlobal>('navigation');
+  const footer = await fetchCachedGlobal<PayloadFooterGlobal>('footer');
+
   return (
     <html
       lang="en"
       className={cn(
-        'h-full bg-pink-50 text-pink-900 antialiased',
+        'h-full scroll-p-24 scroll-smooth! bg-pink-50 text-pink-900 antialiased selection:bg-pink-300 selection:text-pink-900',
         dmSans.variable,
         fraunces.variable,
       )}
     >
       <body className="relative flex h-full flex-col">
-        <Navigation />
-        <div className="mt-20 flex flex-1 flex-col">{children}</div>
+        <Navigation {...navigation} />
+        <div className="mt-20 flex grow flex-col">{children}</div>
+        <Footer {...footer} />
       </body>
     </html>
   );

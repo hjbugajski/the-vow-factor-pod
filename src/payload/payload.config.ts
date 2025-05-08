@@ -33,6 +33,8 @@ import { Images } from '@/payload/collections/images';
 import { Pages } from '@/payload/collections/pages';
 import { Users } from '@/payload/collections/users';
 import { richTextLinkFields } from '@/payload/fields/link';
+import { Footer } from '@/payload/globals/footer';
+import { Navigation } from '@/payload/globals/navigation';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -103,6 +105,7 @@ export default buildConfig({
     defaultFromName: env.RESEND_FROM_NAME_DEFAULT,
     apiKey: env.RESEND_API_KEY,
   }),
+  globals: [Navigation, Footer],
   graphQL: {
     disable: true,
   },

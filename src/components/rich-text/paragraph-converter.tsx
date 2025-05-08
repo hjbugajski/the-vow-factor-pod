@@ -17,7 +17,7 @@ export const paragraphConverter: JSXConverter<SerializedParagraphNode> = ({
   }
 
   return (
-    <p className={overrideClass || cn('my-3 text-lg first:mt-0 last:mb-0', additionalClass)}>
+    <p className={overrideClass || cn('my-3 text-xl first:mt-0 last:mb-0', additionalClass)}>
       {children}
     </p>
   );

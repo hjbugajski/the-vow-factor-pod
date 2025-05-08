@@ -5,42 +5,58 @@ import { cva } from 'class-variance-authority';
 
 import { cn } from '@/utils/cn';
 
-const Marquee = ({ className, ...props }: ComponentProps<'div'>) => (
-  <div
-    tabIndex={-1}
-    className={cn('group flex whitespace-nowrap motion-safe:overflow-x-hidden', className)}
-    {...props}
-  />
-);
-
-const marqueeContentVariants = cva('whitespace-nowrap group-hover:[animation-play-state:paused]', {
-  variants: {
-    speed: {
-      slow: 'animate-marquee-slow',
-      normal: 'animate-marquee-normal',
-      fast: 'animate-marquee-fast',
-    },
-  },
-  defaultVariants: {
-    speed: 'normal',
-  },
-});
-
-export type MarqueeContentProps = ComponentProps<'div'> &
-  VariantProps<typeof marqueeContentVariants> & {
-    duplicate?: boolean;
-  };
-
-const MarqueeContent = ({ className, duplicate = false, speed, ...props }: MarqueeContentProps) => {
+// ----- Marquee ----- //
+export function Marquee({ className, ...props }: ComponentProps<'div'>) {
   return (
     <div
-      aria-hidden={duplicate}
-      className={cn(marqueeContentVariants({ speed }), className)}
+      tabIndex={-1}
+      className={cn(
+        'group flex flex-nowrap whitespace-nowrap motion-safe:overflow-x-hidden',
+        className,
+      )}
       {...props}
     />
   );
-};
+}
 
+// ----- Marquee List ----- //
+const marqueeListVariants = cva(
+  'flex items-center not-motion-safe:[animation-play-state:paused] group-hover:[animation-play-state:paused] motion-reduce:[animation-play-state:paused]',
+  {
+    variants: {
+      speed: {
+        slow: 'animate-marquee-slow',
+        normal: 'animate-marquee-normal',
+        fast: 'animate-marquee-fast',
+      },
+    },
+    defaultVariants: {
+      speed: 'normal',
+    },
+  },
+);
+
+export type MarqueeListProps = ComponentProps<'ul'> &
+  VariantProps<typeof marqueeListVariants> & {
+    duplicate?: boolean;
+  };
+
+export function MarqueeList({ className, duplicate = false, speed, ...props }: MarqueeListProps) {
+  return (
+    <ul
+      {...props}
+      aria-hidden={duplicate}
+      className={cn(marqueeListVariants({ speed }), className)}
+    />
+  );
+}
+
+// ----- Marquee Item ----- //
+export function MarqueeItem({ className, ...props }: ComponentProps<'li'>) {
+  return <li {...props} className={cn('mx-6 md:mx-12', className)} />;
+}
+
+// ----- Marquee Fade ----- //
 const marqueeFadeVariants = cva(
   'pointer-events-none absolute inset-y-0 w-1/6 from-pink-300 md:w-1/5',
   {
@@ -55,8 +71,6 @@ const marqueeFadeVariants = cva(
 
 export type MarqueeFadeProps = ComponentProps<'div'> & VariantProps<typeof marqueeFadeVariants>;
 
-const MarqueeFade = ({ className, side, ...props }: MarqueeFadeProps) => (
-  <div className={cn(marqueeFadeVariants({ side }), className)} {...props} />
-);
-
-export { Marquee, MarqueeContent, MarqueeFade };
+export function MarqueeFade({ className, side, ...props }: MarqueeFadeProps) {
+  return <div {...props} className={cn(marqueeFadeVariants({ side }), className)} />;
+}

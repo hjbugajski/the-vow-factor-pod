@@ -15,8 +15,9 @@ import type {
   SerializedLexicalNodeWithParent,
 } from '@payloadcms/richtext-lexical/react';
 
+import { ColumnsBlock } from '@/components/blocks/columns';
 import { HeroBlock } from '@/components/blocks/hero';
-import { SectionBlock } from '@/components/blocks/section';
+import { ImageBlock } from '@/components/blocks/image';
 import { blockQuoteConverter } from '@/components/rich-text/block-quote-converter';
 import { headingConverter } from '@/components/rich-text/heading-converter';
 import { horizontalRuleConverter } from '@/components/rich-text/horizontal-rule-converter';
@@ -25,7 +26,11 @@ import { listConverter } from '@/components/rich-text/list-converter';
 import { listitemConverter } from '@/components/rich-text/listitem-converter';
 import { paragraphConverter } from '@/components/rich-text/paragraph-converter';
 import { textConverter } from '@/components/rich-text/text-converter';
-import type { PayloadHeroBlock, PayloadSectionBlock } from '@/payload/payload-types';
+import type {
+  PayloadColumnsBlock,
+  PayloadHeroBlock,
+  PayloadImageBlock,
+} from '@/payload/payload-types';
 import { cn } from '@/utils/cn';
 
 export type JSXConverter<
@@ -51,7 +56,7 @@ export type JSXConverter<
 
 type NodeType =
   | DefaultNodeTypes
-  | SerializedBlockNode<PayloadHeroBlock | PayloadSectionBlock>
+  | SerializedBlockNode<PayloadColumnsBlock | PayloadHeroBlock | PayloadImageBlock>
   | SerializedInlineBlockNode;
 
 type Classes = {
@@ -100,8 +105,9 @@ const jsxConverters: JSXConvertersFunction<NodeType> = () => ({
   listitem: listitemConverter,
   link: linkConverter,
   blocks: {
+    columns: ({ node }) => <ColumnsBlock {...node.fields} />,
     hero: ({ node }) => <HeroBlock {...node.fields} />,
-    section: ({ node }) => <SectionBlock {...node.fields} />,
+    image: ({ node }) => <ImageBlock {...node.fields} />,
   },
 });
 

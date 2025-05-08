@@ -17,6 +17,20 @@ export type PayloadRelField = ('noopener' | 'noreferrer' | 'nofollow')[] | null;
  */
 export type PayloadUserRolesField = ('admin' | 'editor' | 'public')[];
 /**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadLinkArrayField".
+ */
+export type PayloadLinkArrayField = {
+  text: string;
+  type: 'internal' | 'external';
+  relationship?: (string | null) | PayloadPagesCollection;
+  anchor?: string | null;
+  url?: string | null;
+  rel?: PayloadRelField;
+  newTab?: boolean | null;
+  id?: string | null;
+}[];
+/**
  * Supported timezones in IANA format.
  *
  * This interface was referenced by `Config`'s JSON-Schema
@@ -96,8 +110,14 @@ export interface Config {
   db: {
     defaultIDType: string;
   };
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    navigation: PayloadNavigationGlobal;
+    footer: PayloadFooterGlobal;
+  };
+  globalsSelect: {
+    navigation: NavigationSelect<false> | NavigationSelect<true>;
+    footer: FooterSelect<false> | FooterSelect<true>;
+  };
   locale: null;
   user: PayloadUsersCollection & {
     collection: 'users';
@@ -438,6 +458,72 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation".
+ */
+export interface PayloadNavigationGlobal {
+  id: string;
+  links?: PayloadLinkArrayField;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer".
+ */
+export interface PayloadFooterGlobal {
+  id: string;
+  linkGroups?:
+    | {
+        heading: string;
+        links: PayloadLinkArrayField;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "navigation_select".
+ */
+export interface NavigationSelect<T extends boolean = true> {
+  links?: T | PayloadLinkArrayFieldSelect<T>;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadLinkArrayField_select".
+ */
+export interface PayloadLinkArrayFieldSelect<T extends boolean = true> {
+  text?: T;
+  type?: T;
+  relationship?: T;
+  anchor?: T;
+  url?: T;
+  rel?: T;
+  newTab?: T;
+  id?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "footer_select".
+ */
+export interface FooterSelect<T extends boolean = true> {
+  linkGroups?:
+    | T
+    | {
+        heading?: T;
+        links?: T | PayloadLinkArrayFieldSelect<T>;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PayloadHeroBlock".
  */
 export interface PayloadHeroBlock {
@@ -449,11 +535,24 @@ export interface PayloadHeroBlock {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadSectionBlock".
+ * via the `definition` "PayloadImageBlock".
  */
-export interface PayloadSectionBlock {
-  backgroundColor: 'default' | 'pink';
-  content: {
+export interface PayloadImageBlock {
+  image: string | PayloadImagesCollection;
+  variant: 'standalone' | 'bioCard';
+  width: '6/12' | '7/12' | '8/12' | '9/12' | '10/12' | '11/12' | 'full';
+  name?: string | null;
+  socialLink?: PayloadLinkGroupField;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'image';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadColumnsBlock".
+ */
+export interface PayloadColumnsBlock {
+  contentColumnOne?: {
     root: {
       type: string;
       children: {
@@ -467,10 +566,25 @@ export interface PayloadSectionBlock {
       version: number;
     };
     [k: string]: unknown;
-  };
+  } | null;
+  contentColumnTwo?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
-  blockType: 'section';
+  blockType: 'columns';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

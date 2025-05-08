@@ -8,8 +8,9 @@ import type {
 } from 'payload';
 
 import { Role, hasRole, hasRoleOrPublished } from '@/payload/access';
+import { Columns } from '@/payload/blocks/columns';
 import { Hero } from '@/payload/blocks/hero';
-import { Section } from '@/payload/blocks/section';
+import { Image } from '@/payload/blocks/image';
 import type { PayloadPagesCollection } from '@/payload/payload-types';
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path';
 import { slugify } from '@/utils/slugify';
@@ -150,7 +151,7 @@ export const Pages: CollectionConfig<'pages'> = {
       editor: lexicalEditor({
         features: ({ rootFeatures }) => [
           ...rootFeatures,
-          BlocksFeature({ blocks: [Hero, Section] }),
+          BlocksFeature({ blocks: [Hero, Columns, Image] }),
         ],
       }),
     },

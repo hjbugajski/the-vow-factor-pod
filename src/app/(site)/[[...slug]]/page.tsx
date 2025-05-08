@@ -7,7 +7,6 @@ import { getPayload } from 'payload';
 import { metadata } from '@/app/(site)/layout';
 import { LivePreviewListener } from '@/components/live-preview-listener';
 import { RichText } from '@/components/rich-text';
-import { cn } from '@/utils/cn';
 import { pageTitle } from '@/utils/page-title';
 import config from '@payload-config';
 
