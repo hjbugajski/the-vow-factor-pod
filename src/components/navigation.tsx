@@ -75,7 +75,7 @@ export function Navigation({ links }: PayloadNavigationGlobal) {
     const handleResize = () => {
       const width = document.documentElement.clientWidth || 0;
 
-      if (width >= 992) {
+      if (width >= 768) {
         setOpen(false);
       }
     };

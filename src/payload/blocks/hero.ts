@@ -1,4 +1,7 @@
-import type { Block } from 'payload';
+import type { Block, Field } from 'payload';
+
+import { linkArray } from '@/payload/fields/link';
+import { deepMerge } from '@/payload/utils/deep-merge';
 
 export const Hero: Block = {
   slug: 'hero',
@@ -16,5 +19,6 @@ export const Hero: Block = {
       relationTo: 'images',
       required: true,
     },
+    deepMerge<Field>(linkArray, { required: true }),
   ],
 };

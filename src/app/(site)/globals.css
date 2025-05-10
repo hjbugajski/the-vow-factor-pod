@@ -1,5 +1,6 @@
 /* stylelint-disable custom-property-pattern */
 @import 'tailwindcss';
+@import 'tw-animate-css';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
@@ -114,7 +115,7 @@
   }
 
   a {
-    @apply rounded decoration-dotted decoration-3 underline-offset-6 transition duration-300 hover:not-focus-visible:underline focus:outline-none focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 dark:focus-visible:ring-pink-300 dark:focus-visible:ring-offset-pink-950;
+    @apply rounded decoration-dotted decoration-4 underline-offset-6 transition duration-300 hover:not-focus-visible:underline focus:outline-none focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 dark:focus-visible:ring-pink-300 dark:focus-visible:ring-offset-pink-950;
   }
 
   strong {

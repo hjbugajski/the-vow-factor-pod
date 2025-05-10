@@ -529,6 +529,7 @@ export interface FooterSelect<T extends boolean = true> {
 export interface PayloadHeroBlock {
   image: string | PayloadImagesCollection;
   mobileImage: string | PayloadImagesCollection;
+  links: PayloadLinkArrayField;
   id?: string | null;
   blockName?: string | null;
   blockType: 'hero';
