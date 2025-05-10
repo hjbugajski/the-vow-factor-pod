@@ -6,6 +6,7 @@ import { getPayload } from 'payload';
 
 import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
+import { Toaster } from '@/components/ui/toaster';
 import type { PayloadFooterGlobal, PayloadNavigationGlobal } from '@/payload/payload-types';
 import payloadConfig from '@/payload/payload.config';
 import { cn } from '@/utils/cn';
@@ -60,6 +61,7 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <Navigation {...navigation} />
         <div className="mt-20 flex grow flex-col">{children}</div>
         <Footer {...footer} />
+        <Toaster />
       </body>
     </html>
   );

@@ -29,6 +29,9 @@ import sharp from 'sharp';
 
 import { env } from '@/env/server';
 import { Role } from '@/payload/access';
+import { Clients } from '@/payload/collections/clients';
+import { FormSubmissions } from '@/payload/collections/form-submissions';
+import { Forms } from '@/payload/collections/forms';
 import { Images } from '@/payload/collections/images';
 import { Pages } from '@/payload/collections/pages';
 import { Users } from '@/payload/collections/users';
@@ -70,7 +73,17 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Pages, Images, Users],
+  collections: [
+    // base
+    Pages,
+    Images,
+    // crm
+    Clients,
+    Forms,
+    FormSubmissions,
+    // admin
+    Users,
+  ],
   cors: whitelist,
   csrf: whitelist,
   db: postgresAdapter({

@@ -16,6 +16,7 @@ import type {
 } from '@payloadcms/richtext-lexical/react';
 
 import { ColumnsBlock } from '@/components/blocks/columns';
+import { FormBlock } from '@/components/blocks/form';
 import { HeroBlock } from '@/components/blocks/hero';
 import { ImageBlock } from '@/components/blocks/image';
 import { blockQuoteConverter } from '@/components/rich-text/block-quote-converter';
@@ -28,6 +29,7 @@ import { paragraphConverter } from '@/components/rich-text/paragraph-converter';
 import { textConverter } from '@/components/rich-text/text-converter';
 import type {
   PayloadColumnsBlock,
+  PayloadFormBlock,
   PayloadHeroBlock,
   PayloadImageBlock,
 } from '@/payload/payload-types';
@@ -56,7 +58,9 @@ export type JSXConverter<
 
 type NodeType =
   | DefaultNodeTypes
-  | SerializedBlockNode<PayloadColumnsBlock | PayloadHeroBlock | PayloadImageBlock>
+  | SerializedBlockNode<
+      PayloadColumnsBlock | PayloadFormBlock | PayloadHeroBlock | PayloadImageBlock
+    >
   | SerializedInlineBlockNode;
 
 type Classes = {
@@ -106,6 +110,7 @@ const jsxConverters: JSXConvertersFunction<NodeType> = () => ({
   link: linkConverter,
   blocks: {
     columns: ({ node }) => <ColumnsBlock {...node.fields} />,
+    form: ({ node }) => <FormBlock {...node.fields} />,
     hero: ({ node }) => <HeroBlock {...node.fields} />,
     image: ({ node }) => <ImageBlock {...node.fields} />,
   },

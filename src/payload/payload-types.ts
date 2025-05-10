@@ -84,24 +84,71 @@ export type SupportedTimezones =
   | 'Pacific/Noumea'
   | 'Pacific/Auckland'
   | 'Pacific/Fiji';
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadButtonVariantField".
+ */
+export type PayloadButtonVariantField = 'primary' | 'secondary';
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadButtonSizeField".
+ */
+export type PayloadButtonSizeField = 'sm' | 'md' | 'lg';
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadIconField".
+ */
+export type PayloadIconField =
+  | (
+      | 'arrowLeft'
+      | 'arrowRight'
+      | 'arrowUpRight'
+      | 'calendar'
+      | 'calendarCheck'
+      | 'chevronDownSmall'
+      | 'chevronUpSmall'
+      | 'chevronRightSmall'
+      | 'chevronLeftSmall'
+      | 'close'
+      | 'dot'
+      | 'instagram'
+      | 'tikTok'
+    )
+  | null;
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadButtonIconPositionField".
+ */
+export type PayloadButtonIconPositionField = ('none' | 'left' | 'right' | 'center') | null;
 
 export interface Config {
   auth: {
+    clients: ClientAuthOperations;
     users: UserAuthOperations;
   };
   blocks: {};
   collections: {
     pages: PayloadPagesCollection;
     images: PayloadImagesCollection;
+    clients: PayloadClientsCollection;
+    forms: PayloadFormsCollection;
+    'form-submissions': PayloadFormSubmissionsCollection;
     users: PayloadUsersCollection;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    clients: {
+      forms: 'form-submissions';
+    };
+  };
   collectionsSelect: {
     pages: PagesSelect<false> | PagesSelect<true>;
     images: ImagesSelect<false> | ImagesSelect<true>;
+    clients: ClientsSelect<false> | ClientsSelect<true>;
+    forms: FormsSelect<false> | FormsSelect<true>;
+    'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
@@ -119,12 +166,34 @@ export interface Config {
     footer: FooterSelect<false> | FooterSelect<true>;
   };
   locale: null;
-  user: PayloadUsersCollection & {
-    collection: 'users';
-  };
+  user:
+    | (PayloadClientsCollection & {
+        collection: 'clients';
+      })
+    | (PayloadUsersCollection & {
+        collection: 'users';
+      });
   jobs: {
     tasks: unknown;
     workflows: unknown;
+  };
+}
+export interface ClientAuthOperations {
+  forgotPassword: {
+    email: string;
+    password: string;
+  };
+  login: {
+    email: string;
+    password: string;
+  };
+  registerFirstUser: {
+    email: string;
+    password: string;
+  };
+  unlock: {
+    email: string;
+    password: string;
   };
 }
 export interface UserAuthOperations {
@@ -245,6 +314,314 @@ export interface PayloadLinkGroupField {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients".
+ */
+export interface PayloadClientsCollection {
+  id: string;
+  name: string;
+  phoneNumber?: string | null;
+  forms?: {
+    docs?: (string | PayloadFormSubmissionsCollection)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  updatedAt: string;
+  createdAt: string;
+  email: string;
+  resetPasswordToken?: string | null;
+  resetPasswordExpiration?: string | null;
+  salt?: string | null;
+  hash?: string | null;
+  loginAttempts?: number | null;
+  lockUntil?: string | null;
+  password?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions".
+ */
+export interface PayloadFormSubmissionsCollection {
+  id: string;
+  form: string | PayloadFormsCollection;
+  client?: (string | null) | PayloadClientsCollection;
+  data: {
+    label: string;
+    name: string;
+    value: string;
+    id?: string | null;
+  }[];
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms".
+ */
+export interface PayloadFormsCollection {
+  id: string;
+  title: string;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  submitButtonLabel: string;
+  confirmationMessage: string;
+  fields: (
+    | PayloadTextBlock
+    | PayloadTextareaBlock
+    | PayloadDateBlock
+    | PayloadSelectBlock
+    | PayloadRadioBlock
+    | PayloadEmailBlock
+    | PayloadPhoneNumberBlock
+  )[];
+  updatedAt: string;
+  createdAt: string;
+  _status?: ('draft' | 'published') | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextBlock".
+ */
+export interface PayloadTextBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextareaBlock".
+ */
+export interface PayloadTextareaBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textarea';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadDateBlock".
+ */
+export interface PayloadDateBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  mode: 'single' | 'multiple' | 'range';
+  allowedDates: 'any' | 'previous' | 'future';
+  defaultDateValue?: string | null;
+  defaultDateValues?:
+    | {
+        value?: string | null;
+        id?: string | null;
+      }[]
+    | null;
+  defaultDateFromValue?: string | null;
+  defaultDateToValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'date';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadSelectBlock".
+ */
+export interface PayloadSelectBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  options: {
+    label: string;
+    value: string;
+    id?: string | null;
+  }[];
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'select';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadRadioBlock".
+ */
+export interface PayloadRadioBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  options: {
+    label: string;
+    value: string;
+    id?: string | null;
+  }[];
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'radio';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadEmailBlock".
+ */
+export interface PayloadEmailBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'email';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadPhoneNumberBlock".
+ */
+export interface PayloadPhoneNumberBlock {
+  name: string;
+  label: string;
+  placeholder?: string | null;
+  width: 'half' | 'full';
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  defaultValue?: string | null;
+  required: boolean;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'phoneNumber';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "users".
  */
 export interface PayloadUsersCollection {
@@ -279,14 +656,31 @@ export interface PayloadLockedDocument {
         value: string | PayloadImagesCollection;
       } | null)
     | ({
+        relationTo: 'clients';
+        value: string | PayloadClientsCollection;
+      } | null)
+    | ({
+        relationTo: 'forms';
+        value: string | PayloadFormsCollection;
+      } | null)
+    | ({
+        relationTo: 'form-submissions';
+        value: string | PayloadFormSubmissionsCollection;
+      } | null)
+    | ({
         relationTo: 'users';
         value: string | PayloadUsersCollection;
       } | null);
   globalSlug?: string | null;
-  user: {
-    relationTo: 'users';
-    value: string | PayloadUsersCollection;
-  };
+  user:
+    | {
+        relationTo: 'clients';
+        value: string | PayloadClientsCollection;
+      }
+    | {
+        relationTo: 'users';
+        value: string | PayloadUsersCollection;
+      };
   updatedAt: string;
   createdAt: string;
 }
@@ -296,10 +690,15 @@ export interface PayloadLockedDocument {
  */
 export interface PayloadPreference {
   id: string;
-  user: {
-    relationTo: 'users';
-    value: string | PayloadUsersCollection;
-  };
+  user:
+    | {
+        relationTo: 'clients';
+        value: string | PayloadClientsCollection;
+      }
+    | {
+        relationTo: 'users';
+        value: string | PayloadUsersCollection;
+      };
   key?: string | null;
   value?:
     | {
@@ -405,6 +804,195 @@ export interface PayloadLinkGroupFieldSelect<T extends boolean = true> {
   url?: T;
   rel?: T;
   newTab?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "clients_select".
+ */
+export interface ClientsSelect<T extends boolean = true> {
+  name?: T;
+  phoneNumber?: T;
+  forms?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  email?: T;
+  resetPasswordToken?: T;
+  resetPasswordExpiration?: T;
+  salt?: T;
+  hash?: T;
+  loginAttempts?: T;
+  lockUntil?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "forms_select".
+ */
+export interface FormsSelect<T extends boolean = true> {
+  title?: T;
+  description?: T;
+  submitButtonLabel?: T;
+  confirmationMessage?: T;
+  fields?:
+    | T
+    | {
+        text?: T | PayloadTextBlockSelect<T>;
+        textarea?: T | PayloadTextareaBlockSelect<T>;
+        date?: T | PayloadDateBlockSelect<T>;
+        select?: T | PayloadSelectBlockSelect<T>;
+        radio?: T | PayloadRadioBlockSelect<T>;
+        email?: T | PayloadEmailBlockSelect<T>;
+        phoneNumber?: T | PayloadPhoneNumberBlockSelect<T>;
+      };
+  updatedAt?: T;
+  createdAt?: T;
+  _status?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextBlock_select".
+ */
+export interface PayloadTextBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextareaBlock_select".
+ */
+export interface PayloadTextareaBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadDateBlock_select".
+ */
+export interface PayloadDateBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  mode?: T;
+  allowedDates?: T;
+  defaultDateValue?: T;
+  defaultDateValues?:
+    | T
+    | {
+        value?: T;
+        id?: T;
+      };
+  defaultDateFromValue?: T;
+  defaultDateToValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadSelectBlock_select".
+ */
+export interface PayloadSelectBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadRadioBlock_select".
+ */
+export interface PayloadRadioBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadEmailBlock_select".
+ */
+export interface PayloadEmailBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadPhoneNumberBlock_select".
+ */
+export interface PayloadPhoneNumberBlockSelect<T extends boolean = true> {
+  name?: T;
+  label?: T;
+  placeholder?: T;
+  width?: T;
+  description?: T;
+  defaultValue?: T;
+  required?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "form-submissions_select".
+ */
+export interface FormSubmissionsSelect<T extends boolean = true> {
+  form?: T;
+  client?: T;
+  data?:
+    | T
+    | {
+        label?: T;
+        name?: T;
+        value?: T;
+        id?: T;
+      };
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -586,6 +1174,30 @@ export interface PayloadColumnsBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'columns';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadFormBlock".
+ */
+export interface PayloadFormBlock {
+  form: string | PayloadFormsCollection;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'form';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadButtonLinkBlock".
+ */
+export interface PayloadButtonLinkBlock {
+  variant: PayloadButtonVariantField;
+  size: PayloadButtonSizeField;
+  icon?: PayloadIconField;
+  iconPosition?: PayloadButtonIconPositionField;
+  link: PayloadLinkGroupField;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'buttonLink';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
