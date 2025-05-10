@@ -59,7 +59,7 @@ export const Forms: CollectionConfig<'forms'> = {
       type: 'blocks',
       required: true,
       minRows: 1,
-      blocks: [Text, Textarea, Date, Select, Radio, Email, PhoneNumber],
+      blocks: [Date, Email, PhoneNumber, Radio, Select, Text, Textarea],
     },
   ],
 };

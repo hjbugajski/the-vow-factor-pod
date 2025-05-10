@@ -346,8 +346,8 @@ export interface PayloadFormSubmissionsCollection {
   client?: (string | null) | PayloadClientsCollection;
   data: {
     label: string;
-    name: string;
     value: string;
+    blockType: string;
     id?: string | null;
   }[];
   updatedAt: string;
@@ -378,13 +378,13 @@ export interface PayloadFormsCollection {
   submitButtonLabel: string;
   confirmationMessage: string;
   fields: (
-    | PayloadTextBlock
-    | PayloadTextareaBlock
     | PayloadDateBlock
-    | PayloadSelectBlock
-    | PayloadRadioBlock
     | PayloadEmailBlock
     | PayloadPhoneNumberBlock
+    | PayloadRadioBlock
+    | PayloadSelectBlock
+    | PayloadTextBlock
+    | PayloadTextareaBlock
   )[];
   updatedAt: string;
   createdAt: string;
@@ -392,90 +392,12 @@ export interface PayloadFormsCollection {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadTextBlock".
- */
-export interface PayloadTextBlock {
-  name: string;
-  label: string;
-  placeholder?: string | null;
-  width: 'half' | 'full';
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  defaultValue?: string | null;
-  required: boolean;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'text';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadTextareaBlock".
- */
-export interface PayloadTextareaBlock {
-  name: string;
-  label: string;
-  placeholder?: string | null;
-  width: 'half' | 'full';
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  defaultValue?: string | null;
-  required: boolean;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'textarea';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PayloadDateBlock".
  */
 export interface PayloadDateBlock {
-  name: string;
   label: string;
-  placeholder?: string | null;
   width: 'half' | 'full';
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  mode: 'single' | 'multiple' | 'range';
-  allowedDates: 'any' | 'previous' | 'future';
+  placeholder?: string | null;
   defaultDateValue?: string | null;
   defaultDateValues?:
     | {
@@ -485,90 +407,38 @@ export interface PayloadDateBlock {
     | null;
   defaultDateFromValue?: string | null;
   defaultDateToValue?: string | null;
+  mode: 'single' | 'multiple' | 'range';
+  allowedDates: 'any' | 'previous' | 'future';
   required: boolean;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
   id?: string | null;
   blockName?: string | null;
   blockType: 'date';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadSelectBlock".
- */
-export interface PayloadSelectBlock {
-  name: string;
-  label: string;
-  placeholder?: string | null;
-  width: 'half' | 'full';
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  options: {
-    label: string;
-    value: string;
-    id?: string | null;
-  }[];
-  defaultValue?: string | null;
-  required: boolean;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'select';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadRadioBlock".
- */
-export interface PayloadRadioBlock {
-  name: string;
-  label: string;
-  placeholder?: string | null;
-  width: 'half' | 'full';
-  description?: {
-    root: {
-      type: string;
-      children: {
-        type: string;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
-  options: {
-    label: string;
-    value: string;
-    id?: string | null;
-  }[];
-  defaultValue?: string | null;
-  required: boolean;
-  id?: string | null;
-  blockName?: string | null;
-  blockType: 'radio';
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PayloadEmailBlock".
  */
 export interface PayloadEmailBlock {
-  name: string;
   label: string;
-  placeholder?: string | null;
   width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  required: boolean;
   description?: {
     root: {
       type: string;
@@ -584,8 +454,6 @@ export interface PayloadEmailBlock {
     };
     [k: string]: unknown;
   } | null;
-  defaultValue?: string | null;
-  required: boolean;
   id?: string | null;
   blockName?: string | null;
   blockType: 'email';
@@ -595,10 +463,11 @@ export interface PayloadEmailBlock {
  * via the `definition` "PayloadPhoneNumberBlock".
  */
 export interface PayloadPhoneNumberBlock {
-  name: string;
   label: string;
-  placeholder?: string | null;
   width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  required: boolean;
   description?: {
     root: {
       type: string;
@@ -614,11 +483,135 @@ export interface PayloadPhoneNumberBlock {
     };
     [k: string]: unknown;
   } | null;
-  defaultValue?: string | null;
-  required: boolean;
   id?: string | null;
   blockName?: string | null;
   blockType: 'phoneNumber';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadRadioBlock".
+ */
+export interface PayloadRadioBlock {
+  label: string;
+  width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  options: {
+    label: string;
+    value: string;
+    id?: string | null;
+  }[];
+  required: boolean;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'radio';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadSelectBlock".
+ */
+export interface PayloadSelectBlock {
+  label: string;
+  width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  options: {
+    label: string;
+    value: string;
+    id?: string | null;
+  }[];
+  required: boolean;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'select';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextBlock".
+ */
+export interface PayloadTextBlock {
+  label: string;
+  width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  required: boolean;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'text';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextareaBlock".
+ */
+export interface PayloadTextareaBlock {
+  label: string;
+  width: 'half' | 'full';
+  placeholder?: string | null;
+  defaultValue?: string | null;
+  required: boolean;
+  description?: {
+    root: {
+      type: string;
+      children: {
+        type: string;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  } | null;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'textarea';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -835,13 +828,13 @@ export interface FormsSelect<T extends boolean = true> {
   fields?:
     | T
     | {
-        text?: T | PayloadTextBlockSelect<T>;
-        textarea?: T | PayloadTextareaBlockSelect<T>;
         date?: T | PayloadDateBlockSelect<T>;
-        select?: T | PayloadSelectBlockSelect<T>;
-        radio?: T | PayloadRadioBlockSelect<T>;
         email?: T | PayloadEmailBlockSelect<T>;
         phoneNumber?: T | PayloadPhoneNumberBlockSelect<T>;
+        radio?: T | PayloadRadioBlockSelect<T>;
+        select?: T | PayloadSelectBlockSelect<T>;
+        text?: T | PayloadTextBlockSelect<T>;
+        textarea?: T | PayloadTextareaBlockSelect<T>;
       };
   updatedAt?: T;
   createdAt?: T;
@@ -849,46 +842,12 @@ export interface FormsSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadTextBlock_select".
- */
-export interface PayloadTextBlockSelect<T extends boolean = true> {
-  name?: T;
-  label?: T;
-  placeholder?: T;
-  width?: T;
-  description?: T;
-  defaultValue?: T;
-  required?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadTextareaBlock_select".
- */
-export interface PayloadTextareaBlockSelect<T extends boolean = true> {
-  name?: T;
-  label?: T;
-  placeholder?: T;
-  width?: T;
-  description?: T;
-  defaultValue?: T;
-  required?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PayloadDateBlock_select".
  */
 export interface PayloadDateBlockSelect<T extends boolean = true> {
-  name?: T;
   label?: T;
-  placeholder?: T;
   width?: T;
-  description?: T;
-  mode?: T;
-  allowedDates?: T;
+  placeholder?: T;
   defaultDateValue?: T;
   defaultDateValues?:
     | T
@@ -898,51 +857,10 @@ export interface PayloadDateBlockSelect<T extends boolean = true> {
       };
   defaultDateFromValue?: T;
   defaultDateToValue?: T;
+  mode?: T;
+  allowedDates?: T;
   required?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadSelectBlock_select".
- */
-export interface PayloadSelectBlockSelect<T extends boolean = true> {
-  name?: T;
-  label?: T;
-  placeholder?: T;
-  width?: T;
   description?: T;
-  options?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  defaultValue?: T;
-  required?: T;
-  id?: T;
-  blockName?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "PayloadRadioBlock_select".
- */
-export interface PayloadRadioBlockSelect<T extends boolean = true> {
-  name?: T;
-  label?: T;
-  placeholder?: T;
-  width?: T;
-  description?: T;
-  options?:
-    | T
-    | {
-        label?: T;
-        value?: T;
-        id?: T;
-      };
-  defaultValue?: T;
-  required?: T;
   id?: T;
   blockName?: T;
 }
@@ -951,13 +869,12 @@ export interface PayloadRadioBlockSelect<T extends boolean = true> {
  * via the `definition` "PayloadEmailBlock_select".
  */
 export interface PayloadEmailBlockSelect<T extends boolean = true> {
-  name?: T;
   label?: T;
-  placeholder?: T;
   width?: T;
-  description?: T;
+  placeholder?: T;
   defaultValue?: T;
   required?: T;
+  description?: T;
   id?: T;
   blockName?: T;
 }
@@ -966,13 +883,82 @@ export interface PayloadEmailBlockSelect<T extends boolean = true> {
  * via the `definition` "PayloadPhoneNumberBlock_select".
  */
 export interface PayloadPhoneNumberBlockSelect<T extends boolean = true> {
-  name?: T;
   label?: T;
-  placeholder?: T;
   width?: T;
-  description?: T;
+  placeholder?: T;
   defaultValue?: T;
   required?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadRadioBlock_select".
+ */
+export interface PayloadRadioBlockSelect<T extends boolean = true> {
+  label?: T;
+  width?: T;
+  placeholder?: T;
+  defaultValue?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  required?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadSelectBlock_select".
+ */
+export interface PayloadSelectBlockSelect<T extends boolean = true> {
+  label?: T;
+  width?: T;
+  placeholder?: T;
+  defaultValue?: T;
+  options?:
+    | T
+    | {
+        label?: T;
+        value?: T;
+        id?: T;
+      };
+  required?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextBlock_select".
+ */
+export interface PayloadTextBlockSelect<T extends boolean = true> {
+  label?: T;
+  width?: T;
+  placeholder?: T;
+  defaultValue?: T;
+  required?: T;
+  description?: T;
+  id?: T;
+  blockName?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadTextareaBlock_select".
+ */
+export interface PayloadTextareaBlockSelect<T extends boolean = true> {
+  label?: T;
+  width?: T;
+  placeholder?: T;
+  defaultValue?: T;
+  required?: T;
+  description?: T;
   id?: T;
   blockName?: T;
 }
@@ -987,8 +973,8 @@ export interface FormSubmissionsSelect<T extends boolean = true> {
     | T
     | {
         label?: T;
-        name?: T;
         value?: T;
+        blockType?: T;
         id?: T;
       };
   updatedAt?: T;

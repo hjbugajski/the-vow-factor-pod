@@ -43,22 +43,39 @@ import type {
   PayloadFormsCollection,
 } from '@/payload/payload-types';
 import { cn } from '@/utils/cn';
+import { slugify } from '@/utils/slugify';
 
 const REQUIRED_MESSAGE = 'Field is required';
 
 export const FormClient = (props: PayloadFormsCollection) => {
   const { confirmationMessage, fields, id, submitButtonLabel } = props;
 
-  let defaultValues: Record<string, any> = {};
+  const processedFields = fields.map((field) =>
+    Object.assign(structuredClone(field), {
+      name: slugify(field.label),
+    }),
+  );
+
+  const defaultValues: Record<string, any> = {};
 
   const formSchema = z.object(
-    fields.reduce(
+    processedFields.reduce(
       (schema, field) => {
         let fieldSchema;
 
         switch (field.blockType) {
           case 'text':
-          case 'textarea':
+          case 'textarea': {
+            if (field.required) {
+              fieldSchema = z.string().min(1, { message: REQUIRED_MESSAGE });
+            } else {
+              fieldSchema = z.string().optional();
+            }
+
+            defaultValues[field.name] = field.defaultValue ?? '';
+
+            break;
+          }
           case 'select':
           case 'radio': {
             if (field.required) {
@@ -67,9 +84,7 @@ export const FormClient = (props: PayloadFormsCollection) => {
               fieldSchema = z.string().optional();
             }
 
-            defaultValues = Object.assign(defaultValues, {
-              [field.name]: field.defaultValue ?? '',
-            });
+            defaultValues[field.name] = field.defaultValue ? slugify(field.defaultValue) : '';
 
             break;
           }
@@ -78,16 +93,15 @@ export const FormClient = (props: PayloadFormsCollection) => {
             const message = 'Must be a valid email address';
 
             if (field.required) {
-              fieldSchema = z.string().min(1, { message: REQUIRED_MESSAGE }).refine(validator, {
-                message,
-              });
+              fieldSchema = z
+                .string()
+                .min(1, { message: REQUIRED_MESSAGE })
+                .refine(validator, { message });
             } else {
               fieldSchema = z.string().optional().refine(validator, { message });
             }
 
-            defaultValues = Object.assign(defaultValues, {
-              [field.name]: field.defaultValue ?? '',
-            });
+            defaultValues[field.name] = field.defaultValue ?? '';
 
             break;
           }
@@ -104,9 +118,7 @@ export const FormClient = (props: PayloadFormsCollection) => {
               fieldSchema = z.string().optional().refine(validator, { message });
             }
 
-            defaultValues = Object.assign(defaultValues, {
-              [field.name]: field.defaultValue ?? '',
-            });
+            defaultValues[field.name] = field.defaultValue ?? '';
 
             break;
           }
@@ -119,11 +131,9 @@ export const FormClient = (props: PayloadFormsCollection) => {
                   fieldSchema = z.date().optional();
                 }
 
-                defaultValues = Object.assign(defaultValues, {
-                  [field.name]: field.defaultDateValue
-                    ? new Date(field.defaultDateValue)
-                    : undefined,
-                });
+                defaultValues[field.name] = field.defaultDateValue
+                  ? new Date(field.defaultDateValue)
+                  : undefined;
 
                 break;
               }
@@ -134,13 +144,9 @@ export const FormClient = (props: PayloadFormsCollection) => {
                   fieldSchema = z.date().array().optional();
                 }
 
-                defaultValues = Object.assign(defaultValues, {
-                  [field.name]: field.defaultDateValues?.length
-                    ? field.defaultDateValues
-                        .filter((v) => !!v.value)
-                        .map((v) => new Date(v.value!))
-                    : [],
-                });
+                defaultValues[field.name] = field.defaultDateValues?.length
+                  ? field.defaultDateValues.filter((v) => !!v.value).map((v) => new Date(v.value!))
+                  : [];
 
                 break;
               }
@@ -157,14 +163,12 @@ export const FormClient = (props: PayloadFormsCollection) => {
                   });
                 }
 
-                defaultValues = Object.assign(defaultValues, {
-                  [field.name]: {
-                    ...(field.defaultDateFromValue
-                      ? { from: new Date(field.defaultDateFromValue) }
-                      : {}),
-                    ...(field.defaultDateToValue ? { to: new Date(field.defaultDateToValue) } : {}),
-                  },
-                });
+                defaultValues[field.name] = {
+                  ...(field.defaultDateFromValue
+                    ? { from: new Date(field.defaultDateFromValue) }
+                    : {}),
+                  ...(field.defaultDateToValue ? { to: new Date(field.defaultDateToValue) } : {}),
+                };
 
                 break;
               }
@@ -218,13 +222,13 @@ export const FormClient = (props: PayloadFormsCollection) => {
   async function onSubmit(values: z.infer<typeof formSchema>) {
     setPending(true);
 
-    const formattedValues = fields.map<PayloadFormSubmissionsCollection['data'][number]>(
+    const formattedValues = processedFields.map<PayloadFormSubmissionsCollection['data'][number]>(
       (field) => {
         if (field.blockType === 'date') {
           let value = '';
 
           if (field.mode === 'multiple') {
-            value = (values[field.name] as Date[]).reduce(
+            value = values[field.name].reduce(
               (acc: string, date: Date, i: number) =>
                 `${acc}${formatDateShort(date)}${i < values[field.name].length - 1 ? '; ' : ''}`,
               '',
@@ -239,15 +243,25 @@ export const FormClient = (props: PayloadFormsCollection) => {
           }
 
           return {
+            blockType: field.blockType,
             label: field.label,
-            name: field.name,
             value,
           };
         }
 
+        if (field.blockType === 'select' || field.blockType === 'radio') {
+          const selectedOption = field.options.find((o) => o.value === values[field.name]);
+
+          return {
+            blockType: field.blockType,
+            label: field.label,
+            value: selectedOption?.label || '',
+          };
+        }
+
         return {
+          blockType: field.blockType,
           label: field.label,
-          name: field.name,
           value: String(values[field.name]),
         };
       },
@@ -273,7 +287,7 @@ export const FormClient = (props: PayloadFormsCollection) => {
         onSubmit={form.handleSubmit(onSubmit)}
         className="grid w-full grid-cols-1 gap-6 sm:grid-cols-2"
       >
-        {fields.map((payloadField) => (
+        {processedFields.map((payloadField) => (
           <FormField
             key={payloadField.id}
             control={form.control}
@@ -382,7 +396,7 @@ export const FormClient = (props: PayloadFormsCollection) => {
                           </FormControl>
                           <SelectContent>
                             {payloadField.options.map((option) => (
-                              <SelectItem key={option.id} value={option.value}>
+                              <SelectItem key={option.id || option.value} value={option.value}>
                                 {option.label}
                               </SelectItem>
                             ))}
@@ -393,13 +407,16 @@ export const FormClient = (props: PayloadFormsCollection) => {
                       return (
                         <FormControl>
                           <RadioGroup
-                            value={field.value ?? 'no'}
+                            value={field.value}
                             onValueChange={field.onChange}
-                            defaultValue={field.value ?? 'no'}
+                            defaultValue={field.value}
                             className="flex flex-col justify-start"
                           >
                             {payloadField.options.map((option) => (
-                              <FormItem key={option.id} className="flex flex-row gap-3">
+                              <FormItem
+                                key={option.id || option.value}
+                                className="flex flex-row gap-3"
+                              >
                                 <FormControl>
                                   <RadioGroupItem value={option.value} />
                                 </FormControl>
