@@ -19,6 +19,7 @@ import { ColumnsBlock } from '@/components/blocks/columns';
 import { FormBlock } from '@/components/blocks/form';
 import { HeroBlock } from '@/components/blocks/hero';
 import { ImageBlock } from '@/components/blocks/image';
+import { LinksBlock } from '@/components/blocks/links';
 import { blockQuoteConverter } from '@/components/rich-text/block-quote-converter';
 import { headingConverter } from '@/components/rich-text/heading-converter';
 import { horizontalRuleConverter } from '@/components/rich-text/horizontal-rule-converter';
@@ -32,6 +33,7 @@ import type {
   PayloadFormBlock,
   PayloadHeroBlock,
   PayloadImageBlock,
+  PayloadLinksBlock,
 } from '@/payload/payload-types';
 import { cn } from '@/utils/cn';
 
@@ -59,7 +61,11 @@ export type JSXConverter<
 type NodeType =
   | DefaultNodeTypes
   | SerializedBlockNode<
-      PayloadColumnsBlock | PayloadFormBlock | PayloadHeroBlock | PayloadImageBlock
+      | PayloadColumnsBlock
+      | PayloadFormBlock
+      | PayloadHeroBlock
+      | PayloadImageBlock
+      | PayloadLinksBlock
     >
   | SerializedInlineBlockNode;
 
@@ -113,6 +119,7 @@ const jsxConverters: JSXConvertersFunction<NodeType> = () => ({
     form: ({ node }) => <FormBlock {...node.fields} />,
     hero: ({ node }) => <HeroBlock {...node.fields} />,
     image: ({ node }) => <ImageBlock {...node.fields} />,
+    links: ({ node }) => <LinksBlock {...node.fields} />,
   },
 });
 

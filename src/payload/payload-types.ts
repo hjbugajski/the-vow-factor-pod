@@ -20,16 +20,18 @@ export type PayloadUserRolesField = ('admin' | 'editor' | 'public')[];
  * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "PayloadLinkArrayField".
  */
-export type PayloadLinkArrayField = {
-  text: string;
-  type: 'internal' | 'external';
-  relationship?: (string | null) | PayloadPagesCollection;
-  anchor?: string | null;
-  url?: string | null;
-  rel?: PayloadRelField;
-  newTab?: boolean | null;
-  id?: string | null;
-}[];
+export type PayloadLinkArrayField =
+  | {
+      text: string;
+      type: 'internal' | 'external';
+      relationship?: (string | null) | PayloadPagesCollection;
+      anchor?: string | null;
+      url?: string | null;
+      rel?: PayloadRelField;
+      newTab?: boolean | null;
+      id?: string | null;
+    }[]
+  | null;
 /**
  * Supported timezones in IANA format.
  *
@@ -1184,6 +1186,16 @@ export interface PayloadButtonLinkBlock {
   id?: string | null;
   blockName?: string | null;
   blockType: 'buttonLink';
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "PayloadLinksBlock".
+ */
+export interface PayloadLinksBlock {
+  links?: PayloadLinkArrayField;
+  id?: string | null;
+  blockName?: string | null;
+  blockType: 'links';
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

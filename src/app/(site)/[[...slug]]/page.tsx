@@ -68,7 +68,7 @@ export default async function Page({ params }: PageProps) {
   }
 
   return (
-    <main className="mx-auto w-full max-w-7xl px-6 py-12">
+    <main className="mx-auto w-full max-w-7xl px-6 pb-12">
       {draft ? <LivePreviewListener /> : null}
       <RichText data={page.content} />
     </main>

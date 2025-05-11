@@ -4,7 +4,7 @@ import { Icons } from '@/icons';
 import { cn } from '@/utils/cn';
 
 const baseClass =
-  'h-14 w-full rounded-2xl font-medium shadow-sm shadow-pink-950/15 border-3 border-pink-900/75 bg-pink-50 px-4 text-lg text-pink-900 shadow-lg shadow-pink-950/15 transition placeholder:text-pink-900/75 hover:border-pink-950 hover:bg-pink-100 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 disabled:cursor-not-allowed disabled:bg-pink-100 disabled:text-pink-200 disabled:shadow-none';
+  'h-14 w-full rounded-2xl font-medium shadow-sm shadow-pink-950/15 border-3 border-pink-900/75 bg-pink-50 px-4 text-lg text-pink-900 shadow-lg shadow-pink-950/15 duration-300 transition placeholder:text-pink-900/75 hover:border-pink-950/75 hover:bg-pink-100 focus-visible:outline-hidden focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 disabled:cursor-not-allowed disabled:bg-pink-100 disabled:text-pink-200 disabled:shadow-none';
 
 const Input = ({ className, ...props }: ComponentProps<'input'>) => (
   <input className={cn(baseClass, className)} {...props} />

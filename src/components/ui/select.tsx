@@ -34,7 +34,7 @@ const SelectTrigger = ({ className, children, ...props }: ComponentProps<typeof 
   <Trigger
     tabIndex={0}
     className={cn(
-      'inline-flex h-14 w-full items-center justify-between rounded-2xl border-3 border-pink-900/75 bg-pink-50 px-4 text-lg font-medium text-pink-900 shadow-lg shadow-pink-950/15 transition placeholder:text-pink-900/75 hover:border-pink-950 hover:bg-pink-100 focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:bg-pink-100 disabled:text-pink-200 disabled:shadow-none [&>span]:overflow-hidden [&>span]:text-left [&>span]:text-ellipsis [&>span]:whitespace-nowrap [&[data-state=open]>svg]:rotate-180',
+      'inline-flex h-14 w-full items-center justify-between rounded-2xl border-3 border-pink-900/75 bg-pink-50 px-4 text-lg font-medium text-pink-900 shadow-lg shadow-pink-950/15 transition duration-300 placeholder:text-pink-900/75 hover:border-pink-950/75 hover:bg-pink-100 focus-visible:ring-3 focus-visible:ring-pink-900/75 focus-visible:ring-offset-2 focus-visible:ring-offset-pink-50 focus-visible:outline-hidden disabled:cursor-not-allowed disabled:bg-pink-100 disabled:text-pink-200 disabled:shadow-none [&>span]:overflow-hidden [&>span]:text-left [&>span]:text-ellipsis [&>span]:whitespace-nowrap [&[data-state=open]>svg]:rotate-180',
       className,
     )}
     {...props}
@@ -107,7 +107,7 @@ const SelectLabel = ({ className, ...props }: ComponentProps<typeof Label>) => (
 const SelectItem = ({ className, children, ...props }: ComponentProps<typeof Item>) => (
   <Item
     className={cn(
-      'relative flex w-full items-center justify-between gap-3 rounded-xl py-2 pr-3.75 pl-3 text-lg font-medium text-pink-900 outline-hidden transition duration-300 select-none hover:bg-pink-100 focus-visible:bg-pink-100 focus-visible:text-pink-950 data-disabled:pointer-events-none data-disabled:opacity-50 data-[state=checked]:bg-pink-200 data-[state=checked]:text-pink-950 data-[state=checked]:hover:bg-pink-200 data-[state=checked]:focus-visible:bg-pink-200',
+      'relative flex w-full items-center justify-between gap-3 rounded-xl py-2 pr-5 pl-3 text-lg font-medium text-pink-900 outline-hidden transition duration-300 select-none hover:bg-pink-100 focus-visible:bg-pink-100 focus-visible:text-pink-950 data-disabled:pointer-events-none data-disabled:opacity-50 data-[state=checked]:bg-pink-200 data-[state=checked]:text-pink-950 data-[state=checked]:hover:bg-pink-200 data-[state=checked]:focus-visible:bg-pink-200',
       className,
     )}
     {...props}

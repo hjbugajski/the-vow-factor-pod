@@ -13,6 +13,7 @@ import { Columns } from '@/payload/blocks/columns';
 import { Form } from '@/payload/blocks/form';
 import { Hero } from '@/payload/blocks/hero';
 import { Image } from '@/payload/blocks/image';
+import { Links } from '@/payload/blocks/links';
 import type { PayloadPagesCollection } from '@/payload/payload-types';
 import { generatePreviewPath } from '@/payload/utils/generate-preview-path';
 import { slugify } from '@/utils/slugify';
@@ -153,7 +154,7 @@ export const Pages: CollectionConfig<'pages'> = {
       editor: lexicalEditor({
         features: ({ rootFeatures }) => [
           ...rootFeatures,
-          BlocksFeature({ blocks: [Hero, Columns, Image, Form, ButtonLink] }),
+          BlocksFeature({ blocks: [Hero, Columns, Image, Form, ButtonLink, Links] }),
         ],
       }),
     },

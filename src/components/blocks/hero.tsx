@@ -19,7 +19,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
   const marqueeItems = new Array(5).fill(links) as PayloadLinkArrayField[];
 
   return (
-    <div className="relative isolate -mt-13 breakout-full flex h-[calc(100svh-96px)] flex-col items-center gap-16 px-4">
+    <div className="relative isolate breakout-full flex h-[calc(100svh-96px)] flex-col items-center gap-16 px-4">
       <div className="absolute z-50 w-3/4 md:h-8/12">
         <IconTheVowFactor className="h-full w-full text-pink-300 drop-shadow-lg drop-shadow-pink-950/25" />
       </div>
@@ -46,7 +46,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
                 aria-hidden
                 className="flex h-full flex-row items-center justify-center data-[popover-open=true]:[animation-play-state:paused]"
               >
-                {marqueeItem.map((item, j) => (
+                {marqueeItem?.map((item, j) => (
                   <MarqueeItem
                     key={j}
                     className="text-xl font-medium decoration-dotted decoration-4 underline-offset-6 hover:cursor-pointer hover:underline"
@@ -61,7 +61,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
           </PopoverTrigger>
           <PopoverContent className="py-2">
             <ul className="w-full">
-              {links.map((link) => (
+              {links?.map((link) => (
                 <li key={link.id} className="py-2">
                   <PayloadLink link={link} className="text-2xl font-medium" />
                 </li>
