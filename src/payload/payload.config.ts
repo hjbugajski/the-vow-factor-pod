@@ -161,6 +161,7 @@ export default buildConfig({
         },
         region: 'auto',
       },
+      clientUploads: true,
     }),
   ],
   secret: env.PAYLOAD_SECRET,
