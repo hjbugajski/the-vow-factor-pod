@@ -29,6 +29,8 @@ export type PayloadLinkArrayField =
       url?: string | null;
       rel?: PayloadRelField;
       newTab?: boolean | null;
+      umamiEvent?: string | null;
+      umamiEventId?: string | null;
       id?: string | null;
     }[]
   | null;
@@ -313,6 +315,8 @@ export interface PayloadLinkGroupField {
   url?: string | null;
   rel?: PayloadRelField;
   newTab?: boolean | null;
+  umamiEvent?: string | null;
+  umamiEventId?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -799,6 +803,8 @@ export interface PayloadLinkGroupFieldSelect<T extends boolean = true> {
   url?: T;
   rel?: T;
   newTab?: T;
+  umamiEvent?: T;
+  umamiEventId?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -1080,6 +1086,8 @@ export interface PayloadLinkArrayFieldSelect<T extends boolean = true> {
   url?: T;
   rel?: T;
   newTab?: T;
+  umamiEvent?: T;
+  umamiEventId?: T;
   id?: T;
 }
 /**
