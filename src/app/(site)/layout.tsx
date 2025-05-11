@@ -1,12 +1,14 @@
 import type { Metadata } from 'next';
 import { unstable_cache } from 'next/cache';
 import { DM_Sans, Fraunces } from 'next/font/google';
+import Script from 'next/script';
 import type { GlobalSlug } from 'payload';
 import { getPayload } from 'payload';
 
 import { Footer } from '@/components/footer';
 import { Navigation } from '@/components/navigation';
 import { Toaster } from '@/components/ui/toaster';
+import { env } from '@/env/client';
 import type { PayloadFooterGlobal, PayloadNavigationGlobal } from '@/payload/payload-types';
 import payloadConfig from '@/payload/payload.config';
 import { cn } from '@/utils/cn';
@@ -76,6 +78,11 @@ export default async function RootLayout({ children }: Readonly<{ children: Reac
         <div className="mt-20 flex grow flex-col">{children}</div>
         <Footer {...footer} />
         <Toaster />
+        <Script
+          src={env.NEXT_PUBLIC_UMAMI_SRC}
+          data-website-id={env.NEXT_PUBLIC_UMAMI_ID}
+          data-domains={env.NEXT_PUBLIC_DOMAIN}
+        />
       </body>
     </html>
   );
