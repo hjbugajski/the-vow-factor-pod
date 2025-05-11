@@ -18,6 +18,7 @@ const dmSans = DM_Sans({
   preload: true,
   variable: '--font-dm-sans',
   weight: 'variable',
+  subsets: ['latin'],
 });
 const fraunces = Fraunces({
   axes: ['SOFT', 'WONK', 'opsz'],
@@ -26,6 +27,7 @@ const fraunces = Fraunces({
   style: 'italic',
   variable: '--font-fraunces',
   weight: 'variable',
+  subsets: ['latin'],
 });
 
 export const metadata: Metadata = {

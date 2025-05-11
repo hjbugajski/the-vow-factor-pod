@@ -14,7 +14,7 @@ export function Footer({ linkGroups }: PayloadFooterGlobal) {
                 <li key={id || heading}>
                   <h2 className="mb-2 font-sans font-semibold not-italic">{heading}</h2>
                   <ul className="flex flex-col gap-1">
-                    {links.map((link) => (
+                    {links?.map((link) => (
                       <li key={link.id || link.text}>
                         <PayloadLink link={link} className="text-xl font-medium text-pink-100" />
                       </li>
