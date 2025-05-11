@@ -29,8 +29,20 @@ const fraunces = Fraunces({
 });
 
 export const metadata: Metadata = {
-  title: 'The Vow Factor Pod',
+  title: 'The Vow Factor',
   description: 'The Vow Factor Podcast',
+  icons: {
+    icon: [
+      { url: '/favicon.ico', sizes: '32x32' },
+      { url: '/icon.svg', type: 'image/svg+xml' },
+    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180' }],
+    other: [
+      { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
+      { url: '/icon-mask.png', type: 'image/png', sizes: '512x512' },
+      { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
+    ],
+  },
 };
 
 const fetchGlobal = async (slug: GlobalSlug) => {
