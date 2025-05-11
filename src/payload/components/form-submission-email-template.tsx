@@ -18,7 +18,7 @@ export const FormSubmissionEmailTemplate = ({ data, form }: Props) => (
       <Head>
         <Font
           fallbackFontFamily="sans-serif"
-          fontFamily="Figtree"
+          fontFamily="DM Sans"
           fontWeight={400}
           fontStyle="normal"
           webFont={{
@@ -29,7 +29,7 @@ export const FormSubmissionEmailTemplate = ({ data, form }: Props) => (
         <title>{`New ${form.title} Submission`}</title>
       </Head>
       <Preview>You have a new {form.title.toLowerCase()} submission!</Preview>
-      <Body className="bg-neutral-50 text-neutral-800 font-sans">
+      <Body className="text-neutral-800 font-sans">
         <Heading as="h1" className="mt-10 mb-8 text-4xl first:mt-0 last:mb-0 xs:text-5xl">
           {form.title}
         </Heading>
