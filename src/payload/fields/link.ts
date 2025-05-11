@@ -81,6 +81,26 @@ const fields: Field[] = [
     type: 'checkbox',
     defaultValue: false,
   },
+  {
+    type: 'row',
+    fields: [
+      {
+        name: 'umamiEvent',
+        type: 'text',
+        admin: {
+          width: '50%',
+        },
+      },
+      {
+        name: 'umamiEventId',
+        label: 'Umami Event ID',
+        type: 'text',
+        admin: {
+          width: '50%',
+        },
+      },
+    ],
+  },
 ];
 
 export const richTextLinkFields: Field[] = fields;
