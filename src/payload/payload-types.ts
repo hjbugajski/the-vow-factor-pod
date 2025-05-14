@@ -402,6 +402,7 @@ export interface PayloadFormsCollection {
  */
 export interface PayloadDateBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultDateValue?: string | null;
@@ -441,6 +442,7 @@ export interface PayloadDateBlock {
  */
 export interface PayloadEmailBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -470,6 +472,7 @@ export interface PayloadEmailBlock {
  */
 export interface PayloadPhoneNumberBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -499,6 +502,7 @@ export interface PayloadPhoneNumberBlock {
  */
 export interface PayloadRadioBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -533,6 +537,7 @@ export interface PayloadRadioBlock {
  */
 export interface PayloadSelectBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -567,6 +572,7 @@ export interface PayloadSelectBlock {
  */
 export interface PayloadTextBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -596,6 +602,7 @@ export interface PayloadTextBlock {
  */
 export interface PayloadTextareaBlock {
   label: string;
+  name: string;
   width: 'half' | 'full';
   placeholder?: string | null;
   defaultValue?: string | null;
@@ -854,6 +861,7 @@ export interface FormsSelect<T extends boolean = true> {
  */
 export interface PayloadDateBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultDateValue?: T;
@@ -878,6 +886,7 @@ export interface PayloadDateBlockSelect<T extends boolean = true> {
  */
 export interface PayloadEmailBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
@@ -892,6 +901,7 @@ export interface PayloadEmailBlockSelect<T extends boolean = true> {
  */
 export interface PayloadPhoneNumberBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
@@ -906,6 +916,7 @@ export interface PayloadPhoneNumberBlockSelect<T extends boolean = true> {
  */
 export interface PayloadRadioBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
@@ -927,6 +938,7 @@ export interface PayloadRadioBlockSelect<T extends boolean = true> {
  */
 export interface PayloadSelectBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
@@ -948,6 +960,7 @@ export interface PayloadSelectBlockSelect<T extends boolean = true> {
  */
 export interface PayloadTextBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
@@ -962,6 +975,7 @@ export interface PayloadTextBlockSelect<T extends boolean = true> {
  */
 export interface PayloadTextareaBlockSelect<T extends boolean = true> {
   label?: T;
+  name?: T;
   width?: T;
   placeholder?: T;
   defaultValue?: T;
