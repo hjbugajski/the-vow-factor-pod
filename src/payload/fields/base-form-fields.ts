@@ -16,6 +16,7 @@ import type { Field } from 'payload';
 
 import { richTextLinkFields } from '@/payload/fields/link';
 import { required } from '@/payload/fields/required';
+import { slugify } from '@/utils/slugify';
 
 export const baseFormFields = (
   overrides?: { defaultValue?: Field | Field[] },
@@ -31,6 +32,19 @@ export const baseFormFields = (
         unique: true,
         admin: {
           width: '50%',
+        },
+      },
+      {
+        name: 'name',
+        type: 'text',
+        required: true,
+        unique: true,
+        admin: {
+          readOnly: true,
+          hidden: true,
+        },
+        hooks: {
+          beforeValidate: [({ siblingData }) => slugify(siblingData?.label)],
         },
       },
       {
