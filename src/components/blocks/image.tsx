@@ -28,7 +28,7 @@ export function ImageBlock({ image, name, socialLink, variant, width }: PayloadI
       <PayloadImage image={image} className={imageVariants({ width })} />
       {variant === 'bioCard' ? (
         <figcaption className="flex flex-col">
-          <span className="text-center font-display text-2xl font-bold text-pink-900 not-italic md:text-3xl">
+          <span className="text-center font-display text-2xl text-pink-900 md:text-3xl">
             {name}
           </span>
           {socialLink ? (
