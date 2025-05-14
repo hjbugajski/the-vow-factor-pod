@@ -35,6 +35,17 @@ const fraunces = Fraunces({
 export const metadata: Metadata = {
   title: 'The Vow Factor',
   description: 'The Vow Factor Podcast',
+  keywords: [
+    'wedding podcast',
+    'wedding content creators',
+    'wedding vendors',
+    'wedding industry',
+    'inclusive wedding industry',
+    'wedding professionals',
+    'wedding community',
+    'wedding education',
+    'wedding resources',
+  ],
   icons: {
     icon: [
       { url: '/favicon.ico', sizes: '32x32' },
