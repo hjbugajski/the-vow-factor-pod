@@ -16,7 +16,7 @@ const requiredSchema = z
 const optionalSchema = z
   .string()
   .min(0)
-  .refine((arg) => isEmail(arg), {
+  .refine((arg) => arg === '' || isEmail(arg), {
     message: 'Must be a valid email address',
   });
 

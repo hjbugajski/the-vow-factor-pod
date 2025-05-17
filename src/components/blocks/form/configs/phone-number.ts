@@ -16,7 +16,7 @@ const requiredSchema = z
 const optionalSchema = z
   .string()
   .min(0)
-  .refine((arg) => isMobilePhone(arg), {
+  .refine((arg) => arg === '' || isMobilePhone(arg), {
     message: 'Must be a valid phone number',
   });
 
