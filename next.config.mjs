@@ -1,20 +1,23 @@
+import process from 'node:process';
+
 import { withPayload } from '@payloadcms/next/withPayload';
-import type { NextConfig } from 'next';
 
 const production = process.env.NODE_ENV === 'production';
 const domain =
   process.env.VERCEL_TARGET_ENV === 'preview' ? process.env.VERCEL_URL : process.env.DOMAIN;
 
-const nextConfig: NextConfig = {
+/** @type {import('next').NextConfig} */
+const nextConfig = {
   images: {
     remotePatterns: [
       {
         protocol: production ? 'https' : 'http',
-        hostname: production && domain ? domain : 'localhost',
+        hostname: production ? domain : 'localhost',
         pathname: '/api/**',
       },
     ],
   },
+  turbopack: {},
 };
 
-export default withPayload(nextConfig);
+export default withPayload(nextConfig, { devBundleServerPackages: false });
