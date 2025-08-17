@@ -142,7 +142,7 @@ export function Navigation({ links }: PayloadNavigationGlobal) {
           onMountAutoFocus={(e) => e.preventDefault()}
           data-scrolled={scrolled}
           data-open={open}
-          className="relative mx-auto flex w-full max-w-7xl flex-col gap-2 overflow-clip rounded-2xl bg-pink-50 py-3 pr-3 pl-6 outline-3 outline-transparent transition-all transition-discrete duration-300 ease-navigation data-[open=false]:max-h-16 data-[open=true]:max-h-screen data-[open=true]:shadow-lg data-[open=true]:shadow-pink-950/15 data-[open=true]:outline-pink-900/75 data-[scrolled=true]:shadow-lg data-[scrolled=true]:shadow-pink-950/15 data-[scrolled=true]:outline-pink-900/75 md:pr-6 starting:h-16"
+          className="relative mx-auto flex w-full max-w-7xl flex-col overflow-clip rounded-2xl bg-pink-50 py-3 pr-3 pl-6 outline-3 outline-transparent transition-[shadow,outline] duration-300 ease-navigation data-[open=true]:shadow-lg data-[open=true]:shadow-pink-950/15 data-[open=true]:outline-pink-900/75 data-[scrolled=true]:shadow-lg data-[scrolled=true]:shadow-pink-950/15 data-[scrolled=true]:outline-pink-900/75 md:pr-6 starting:h-16"
         >
           <ul className="flex h-10 w-full items-center gap-6">
             <li className="mr-auto">
@@ -169,17 +169,22 @@ export function Navigation({ links }: PayloadNavigationGlobal) {
               </li>
             ))}
           </ul>
-          <ul className="w-full md:hidden">
-            {links?.map((link) => (
-              <li key={link.id} onClick={closeMenu} className="py-2">
-                <PayloadLink
-                  link={link}
-                  tabIndex={open ? 0 : -1}
-                  className="text-2xl font-medium"
-                />
-              </li>
-            ))}
-          </ul>
+          <div
+            className="grid w-full nav-menu-container transition-[grid-template-rows] duration-250 ease-navigation md:hidden"
+            data-open={open}
+          >
+            <ul className="nav-menu-content overflow-hidden">
+              {links?.map((link) => (
+                <li key={link.id} onClick={closeMenu} className="py-2">
+                  <PayloadLink
+                    link={link}
+                    tabIndex={open ? 0 : -1}
+                    className="text-2xl font-medium"
+                  />
+                </li>
+              ))}
+            </ul>
+          </div>
         </FocusScope>
       </nav>
     </>
