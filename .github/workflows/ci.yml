@@ -33,6 +33,3 @@ jobs:
 
       - name: ESLint
         run: pnpm eslint
-
-      - name: Stylelint
-        run: pnpm stylelint

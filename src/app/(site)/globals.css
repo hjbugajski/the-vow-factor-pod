@@ -177,7 +177,7 @@
   &[data-open='false'] {
     grid-template-rows: 0fr;
 
-    .nav-menu-content {
+    & .nav-menu-content {
       opacity: 0;
     }
   }
@@ -185,7 +185,7 @@
   &[data-open='true'] {
     grid-template-rows: 1fr;
 
-    .nav-menu-content {
+    & .nav-menu-content {
       opacity: 1;
     }
   }
@@ -193,7 +193,7 @@
 
 @utility nav-menu-content {
   min-height: 0;
-  transition: opacity 200ms 150ms ease-navigation;
+  transition: opacity 200ms 150ms var(--ease-navigation);
 
   @starting-style {
     opacity: 0;
