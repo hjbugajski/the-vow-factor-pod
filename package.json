@@ -8,7 +8,7 @@
     "i:dev": "infisical run pnpm dev",
     "dev:clean": "rm -rf .next && rm -rf next-env.d.ts && pnpm dev",
     "i:dev:clean": "infisical run pnpm dev:clean",
-    "build": "next build --turbopack",
+    "build": "next build",
     "i:build": "infisical run pnpm build",
     "build:clean": "rm -rf .next && rm -rf next-env.d.ts && pnpm build",
     "i:build:clean": "infisical run pnpm build:clean",
