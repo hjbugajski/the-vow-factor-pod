@@ -15,7 +15,10 @@ export const linkConverter: JSXConverter<SerializedLinkNode> = ({
 }) => (
   <Link
     {...linkProps(node.fields as unknown as PayloadLinkGroupField)}
-    className={overrideClass || cn('underline underline-offset-2', additionalClass)}
+    className={
+      overrideClass ||
+      cn('underline decoration-dotted decoration-4 underline-offset-6', additionalClass)
+    }
   >
     {nodesToJSX({ nodes: node.children, parent })}
   </Link>
