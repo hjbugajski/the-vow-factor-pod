@@ -174,7 +174,7 @@
 }
 
 @utility nav-menu-container {
-  &[data-open='false'] {
+  .nav-menu-container[data-open='false'] {
     grid-template-rows: 0fr;
 
     & .nav-menu-content {
@@ -182,7 +182,7 @@
     }
   }
 
-  &[data-open='true'] {
+  .nav-menu-container[data-open='true'] {
     grid-template-rows: 1fr;
 
     & .nav-menu-content {
@@ -192,10 +192,12 @@
 }
 
 @utility nav-menu-content {
-  min-height: 0;
-  transition: opacity 200ms 150ms var(--ease-navigation);
+  .nav-menu-content {
+    min-height: 0;
+    transition: opacity 200ms 150ms var(--ease-navigation);
 
-  @starting-style {
-    opacity: 0;
+    @starting-style {
+      opacity: 0;
+    }
   }
 }

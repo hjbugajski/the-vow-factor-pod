@@ -4,7 +4,9 @@ import { withPayload } from '@payloadcms/next/withPayload';
 
 const production = process.env.NODE_ENV === 'production';
 const domain =
-  process.env.VERCEL_TARGET_ENV === 'preview' ? process.env.VERCEL_URL : process.env.DOMAIN;
+  process.env.VERCEL_TARGET_ENV === 'preview'
+    ? process.env.VERCEL_URL
+    : process.env.DOMAIN || 'localhost';
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
