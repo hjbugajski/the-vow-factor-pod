@@ -174,7 +174,7 @@
 }
 
 @utility nav-menu-container {
-  .nav-menu-container[data-open='false'] {
+  &[data-open='false'] {
     grid-template-rows: 0fr;
 
     & .nav-menu-content {
@@ -182,7 +182,7 @@
     }
   }
 
-  .nav-menu-container[data-open='true'] {
+  &[data-open='true'] {
     grid-template-rows: 1fr;
 
     & .nav-menu-content {
