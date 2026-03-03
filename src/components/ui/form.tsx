@@ -1,5 +1,5 @@
 import type { ComponentProps } from 'react';
-import { createContext, useContext, useId } from 'react';
+import { createContext, useContext, useId, useMemo } from 'react';
 
 import type { Root } from '@radix-ui/react-label';
 import { Slot } from '@radix-ui/react-slot';
@@ -25,11 +25,15 @@ const FormField = <
   TName extends FieldPath<TFieldValues> = FieldPath<TFieldValues>,
 >({
   ...props
-}: ControllerProps<TFieldValues, TName>) => (
-  <FormFieldContext.Provider value={{ name: props.name }}>
-    <Controller {...props} />
-  </FormFieldContext.Provider>
-);
+}: ControllerProps<TFieldValues, TName>) => {
+  const value = useMemo(() => ({ name: props.name }), [props.name]);
+
+  return (
+    <FormFieldContext.Provider value={value}>
+      <Controller {...props} />
+    </FormFieldContext.Provider>
+  );
+};
 
 const useFormField = () => {
   const fieldContext = useContext(FormFieldContext);
@@ -62,9 +66,10 @@ const FormItemContext = createContext<FormItemContextValue>({} as FormItemContex
 
 const FormItem = ({ className, ...props }: ComponentProps<'div'>) => {
   const id = useId();
+  const value = useMemo(() => ({ id }), [id]);
 
   return (
-    <FormItemContext.Provider value={{ id }}>
+    <FormItemContext.Provider value={value}>
       <div className={cn('flex w-full flex-col gap-2', className)} {...props} />
     </FormItemContext.Provider>
   );

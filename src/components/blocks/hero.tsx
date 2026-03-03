@@ -7,7 +7,7 @@ import { PayloadImage } from '@/components/ui/payload-image';
 import { PayloadLink } from '@/components/ui/payload-link';
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover';
 import { IconTheVowFactor } from '@/icons/the-vow-factor';
-import type { PayloadHeroBlock, PayloadLinkArrayField } from '@/payload/payload-types';
+import type { PayloadHeroBlock } from '@/payload/payload-types';
 
 export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
   const [popoverOpen, setPopoverOpen] = useState(false);
@@ -16,7 +16,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
     return null;
   }
 
-  const marqueeItems = new Array(5).fill(links) as PayloadLinkArrayField[];
+  const marqueeItems = Array.from({ length: 5 }, () => links);
 
   return (
     <div className="relative isolate breakout-full flex h-[calc(100svh-96px)] flex-col items-center gap-16 px-4">
@@ -25,7 +25,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
       </div>
       <div className="relative isolate h-full w-full rounded-2xl shadow-lg shadow-pink-950/10 outline-3 outline-pink-900/75">
         <div className="absolute inset-0 z-10 rounded-2xl bg-pink-950/30" />
-        <div className="absolute inset-x-0 bottom-0 z-20 h-1/3 rounded-2xl bg-gradient-to-t from-pink-300/75 to-transparent" />
+        <div className="absolute inset-x-0 bottom-0 z-20 h-1/3 rounded-2xl bg-linear-to-t from-pink-300/75 to-transparent" />
         <PayloadImage
           image={image}
           className="hidden h-full w-full rounded-2xl object-cover object-center md:block"
@@ -44,7 +44,7 @@ export function HeroBlock({ image, links, mobileImage }: PayloadHeroBlock) {
                 key={i}
                 data-popover-open={popoverOpen}
                 aria-hidden
-                className="flex h-full flex-row items-center justify-center data-[popover-open=true]:[animation-play-state:paused]"
+                className="flex h-full flex-row items-center justify-center data-[popover-open=true]:paused"
               >
                 {marqueeItem?.map((item, j) => (
                   <MarqueeItem

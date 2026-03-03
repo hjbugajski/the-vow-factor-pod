@@ -25,14 +25,6 @@ type Props = {
 };
 
 export function TextField({ meta, field }: Props) {
-  if (meta.blockType === 'textarea') {
-    return (
-      <FormControl>
-        <Textarea {...field} />
-      </FormControl>
-    );
-  }
-
   const extra = useMemo(() => {
     const e: Partial<ComponentProps<typeof Input>> = {};
 
@@ -46,6 +38,14 @@ export function TextField({ meta, field }: Props) {
 
     return e;
   }, [meta.blockType]);
+
+  if (meta.blockType === 'textarea') {
+    return (
+      <FormControl>
+        <Textarea {...field} />
+      </FormControl>
+    );
+  }
 
   return (
     <FormControl>

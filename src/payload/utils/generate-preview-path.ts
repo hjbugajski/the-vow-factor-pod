@@ -1,4 +1,4 @@
-import type { CollectionSlug, PayloadRequest } from 'payload';
+import type { CollectionSlug } from 'payload';
 
 const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
   pages: '',
@@ -7,19 +7,13 @@ const collectionPrefixMap: Partial<Record<CollectionSlug, string>> = {
 type Props = {
   collection: keyof typeof collectionPrefixMap;
   path: string;
-  req: PayloadRequest;
 };
 
-export const generatePreviewPath = ({ collection, path, req }: Props) => {
-  const params = { collection, path: `${collectionPrefixMap[collection]}${path}` };
-  const encodedParams = new URLSearchParams();
-  const isProduction =
-    process.env.NODE_ENV === 'production' || Boolean(process.env.VERCEL_PROJECT_PRODUCTION_URL);
-  const protocol = isProduction ? 'https:' : req.protocol;
-
-  Object.entries(params).forEach(([key, value]) => {
-    encodedParams.append(key, value);
+export const generatePreviewPath = ({ collection, path }: Props) => {
+  const encodedParams = new URLSearchParams({
+    collection,
+    path: `${collectionPrefixMap[collection]}${path}`,
   });
 
-  return `${protocol}//${req.host}/next/preview?${encodedParams.toString()}`;
+  return `/next/preview?${encodedParams.toString()}`;
 };

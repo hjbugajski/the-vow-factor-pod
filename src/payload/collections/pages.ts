@@ -107,18 +107,16 @@ export const Pages: CollectionConfig<'pages'> = {
     useAsTitle: 'title',
     defaultColumns: ['title', 'path', '_status', 'updatedAt'],
     livePreview: {
-      url: ({ data, req }) =>
+      url: ({ data }) =>
         generatePreviewPath({
           path: typeof data?.path === 'string' ? data.path : '',
           collection: 'pages',
-          req,
         }),
     },
-    preview: (data, { req }) =>
+    preview: (data) =>
       generatePreviewPath({
         path: typeof data?.path === 'string' ? data.path : '',
         collection: 'pages',
-        req,
       }),
   },
   access: {

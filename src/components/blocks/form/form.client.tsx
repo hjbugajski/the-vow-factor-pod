@@ -78,7 +78,7 @@ export function FormClient({
         const payload = fields.map((f) => ({
           blockType: f.blockType,
           label: f.label,
-          value: getFieldConfig(f).format(f, values[f.name]),
+          value: getFieldConfig(f).format(f, values[f.name] as never),
         }));
 
         await submitForm(id, payload);

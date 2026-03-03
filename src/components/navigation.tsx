@@ -175,7 +175,14 @@ export function Navigation({ links }: PayloadNavigationGlobal) {
           >
             <ul className="nav-menu-content overflow-hidden">
               {links?.map((link) => (
-                <li key={link.id} onClick={closeMenu} className="py-2">
+                <li
+                  key={link.id}
+                  onClick={closeMenu}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter' || e.key === ' ') closeMenu();
+                  }}
+                  className="py-2"
+                >
                   <PayloadLink
                     link={link}
                     tabIndex={open ? 0 : -1}

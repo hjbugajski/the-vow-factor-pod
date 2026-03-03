@@ -72,7 +72,6 @@ export function DateField({ meta, field }: Props) {
       <PopoverContent className="w-auto p-0" align="start">
         <Calendar
           mode={meta.mode}
-          // eslint-disable-next-line @typescript-eslint/no-unsafe-assignment
           selected={field.value}
           onSelect={field.onChange}
           disabled={disabled}
