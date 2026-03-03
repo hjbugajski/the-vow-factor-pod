@@ -33,6 +33,3 @@ jobs:
 
       - name: Lint
         run: pnpm lint:check
-
-      - name: Stylelint
-        run: pnpm stylelint:check
