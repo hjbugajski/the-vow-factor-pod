@@ -24,7 +24,10 @@ export function FormBlock(props: FormBlockProps) {
   for (const field of form.fields) {
     if (field.description) {
       fieldDescriptions[field.name] = (
-        <RichText data={field.description} overrideClasses={{ paragraph: 'text-base text-pink-900/75' }} />
+        <RichText
+          data={field.description}
+          overrideClasses={{ paragraph: 'text-base text-pink-900/75' }}
+        />
       );
     }
   }
