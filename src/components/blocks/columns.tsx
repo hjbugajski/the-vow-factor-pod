@@ -1,7 +1,12 @@
-import { RichText } from '@/components/rich-text';
+import type { ComponentType } from 'react';
+
 import type { PayloadColumnsBlock } from '@/payload/payload-types';
 
-export function ColumnsBlock({ contentColumnOne, contentColumnTwo }: PayloadColumnsBlock) {
+interface ColumnsBlockProps extends PayloadColumnsBlock {
+  RichText: ComponentType<{ data?: PayloadColumnsBlock['contentColumnOne'] }>;
+}
+
+export function ColumnsBlock({ contentColumnOne, contentColumnTwo, RichText }: ColumnsBlockProps) {
   return (
     <div className="grid grid-cols-1 gap-12 md:grid-cols-2">
       <section>

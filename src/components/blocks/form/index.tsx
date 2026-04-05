@@ -1,14 +1,35 @@
+import type { ComponentType, ReactNode } from 'react';
+
 import { FormClient } from '@/components/blocks/form/form.client';
-import { RichText } from '@/components/rich-text';
-import type { PayloadFormBlock } from '@/payload/payload-types';
+import type { PayloadFormBlock, PayloadFormsCollection } from '@/payload/payload-types';
 import { slugify } from '@/utils/slugify';
 
-export function FormBlock(props: PayloadFormBlock) {
-  const { form } = props;
+interface FormBlockProps extends PayloadFormBlock {
+  RichText: ComponentType<{
+    data?: PayloadFormsCollection['description'];
+    overrideClasses?: Record<string, string>;
+  }>;
+}
+
+export function FormBlock(props: FormBlockProps) {
+  const { form, RichText } = props;
 
   if (!form || typeof form === 'string') {
     // TODO: make alert component
     return <p>There was an error rendering the form. Please reload the page and try again.</p>;
+  }
+
+  const fieldDescriptions: Record<string, ReactNode> = {};
+
+  for (const field of form.fields) {
+    if (field.description) {
+      fieldDescriptions[field.name] = (
+        <RichText
+          data={field.description}
+          overrideClasses={{ paragraph: 'text-base text-pink-900/75' }}
+        />
+      );
+    }
   }
 
   return (
@@ -17,7 +38,7 @@ export function FormBlock(props: PayloadFormBlock) {
         {form?.title}
       </h1>
       <RichText data={form.description} />
-      <FormClient {...form} />
+      <FormClient {...form} fieldDescriptions={fieldDescriptions} />
     </section>
   );
 }

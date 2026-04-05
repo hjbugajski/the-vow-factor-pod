@@ -130,8 +130,9 @@
   font-optical-sizing: auto;
   font-weight: 900;
   font-style: italic;
-  font-stretch: normal;
   line-height: initial;
+
+  font-stretch: normal;
 }
 
 @utility font-thin {

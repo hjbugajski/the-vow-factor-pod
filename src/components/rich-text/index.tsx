@@ -115,8 +115,8 @@ const jsxConverters: JSXConvertersFunction<NodeType> = () => ({
   listitem: listitemConverter,
   link: linkConverter,
   blocks: {
-    columns: ({ node }) => <ColumnsBlock {...node.fields} />,
-    form: ({ node }) => <FormBlock {...node.fields} />,
+    columns: ({ node }) => <ColumnsBlock {...node.fields} RichText={RichText} />,
+    form: ({ node }) => <FormBlock {...node.fields} RichText={RichText} />,
     hero: ({ node }) => <HeroBlock {...node.fields} />,
     image: ({ node }) => <ImageBlock {...node.fields} />,
     links: ({ node }) => <LinksBlock {...node.fields} />,

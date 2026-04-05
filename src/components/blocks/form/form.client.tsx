@@ -1,6 +1,6 @@
 'use client';
 
-import { useCallback, useMemo, useState } from 'react';
+import { type ReactNode, useCallback, useMemo, useState } from 'react';
 
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
@@ -16,7 +16,6 @@ import { textConfig } from '@/components/blocks/form/configs/text';
 import { textareaConfig } from '@/components/blocks/form/configs/textarea';
 import { submitForm } from '@/components/blocks/form/form.action';
 import type { FieldConfig, FieldConfigs, FieldMeta } from '@/components/blocks/form/types';
-import { RichText } from '@/components/rich-text';
 import { Button } from '@/components/ui/button';
 import { Form, FormField, FormItem, FormLabel, FormMessage } from '@/components/ui/form';
 import { IconSpinner } from '@/icons/spinner';
@@ -36,12 +35,17 @@ function getFieldConfig<M extends FieldMeta>(meta: M): FieldConfig<M> {
   return fieldConfigs[meta.blockType] as unknown as FieldConfig<M>;
 }
 
+interface FormClientProps extends PayloadFormsCollection {
+  fieldDescriptions: Record<string, ReactNode>;
+}
+
 export function FormClient({
   confirmationMessage,
+  fieldDescriptions,
   fields,
   id,
   submitButtonLabel,
-}: PayloadFormsCollection) {
+}: FormClientProps) {
   const [pending, setPending] = useState(false);
 
   const fieldList = useMemo(
@@ -114,10 +118,7 @@ export function FormClient({
                   {!meta.required ? ' (optional)' : null}
                 </FormLabel>
                 <Renderer meta={meta} field={field} />
-                <RichText
-                  data={meta.description}
-                  overrideClasses={{ paragraph: 'text-base text-pink-900/75' }}
-                />
+                {fieldDescriptions[meta.name]}
                 <FormMessage />
               </FormItem>
             )}
