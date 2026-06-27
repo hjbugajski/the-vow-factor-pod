@@ -38,11 +38,13 @@ import { Users } from '@/payload/collections/users';
 import { richTextLinkFields } from '@/payload/fields/link';
 import { Footer } from '@/payload/globals/footer';
 import { Navigation } from '@/payload/globals/navigation';
+import { getServerSideUrl } from '@/payload/utils/get-server-side-url';
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
-const whitelist = [env.SERVER_URL].filter(Boolean);
+const serverUrl = getServerSideUrl();
+const whitelist = [serverUrl].filter(Boolean);
 
 export default buildConfig({
   admin: {
@@ -208,7 +210,7 @@ export default buildConfig({
     }),
   ],
   secret: env.PAYLOAD_SECRET,
-  serverURL: env.SERVER_URL,
+  serverURL: serverUrl,
   sharp,
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
