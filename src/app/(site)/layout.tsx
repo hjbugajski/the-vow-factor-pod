@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { unstable_cache } from 'next/cache';
+import { cacheLife, cacheTag } from 'next/cache';
 import { DM_Sans, Fraunces } from 'next/font/google';
 import Script from 'next/script';
 import type { GlobalSlug } from 'payload';
@@ -60,16 +60,15 @@ export const metadata: Metadata = {
   },
 };
 
-const fetchGlobal = async (slug: GlobalSlug) => {
+const fetchCachedGlobal = async <T,>(slug: GlobalSlug) => {
+  'use cache';
+  cacheLife('max');
+  cacheTag(`global_${slug}`);
+
   const payload = await getPayload({ config: payloadConfig });
 
-  return payload.findGlobal({ slug });
+  return payload.findGlobal({ slug, overrideAccess: false }) as Promise<T>;
 };
-
-const fetchCachedGlobal = <T,>(slug: GlobalSlug) =>
-  unstable_cache(fetchGlobal, [slug], {
-    tags: [`global_${slug}`],
-  })(slug) as Promise<T>;
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
   const navigation = await fetchCachedGlobal<PayloadNavigationGlobal>('navigation');
