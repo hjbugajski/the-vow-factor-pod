@@ -54,17 +54,15 @@ export function FormClient({
   );
 
   const { defaultValues, schemaShape } = useMemo(() => {
-    return fieldList.reduce(
-      (acc, { meta, config }) => {
-        acc.defaultValues[meta.name] = config.defaultValue(meta);
-        acc.schemaShape[meta.name] = config.schema(meta);
-        return acc;
-      },
-      {
-        defaultValues: {} as Record<string, unknown>,
-        schemaShape: {} as Record<string, z.ZodTypeAny>,
-      },
-    );
+    const defaultValues: Record<string, unknown> = {};
+    const schemaShape: Record<string, z.ZodType> = {};
+
+    for (const { meta, config } of fieldList) {
+      defaultValues[meta.name] = config.defaultValue(meta);
+      schemaShape[meta.name] = config.schema(meta);
+    }
+
+    return { defaultValues, schemaShape };
   }, [fieldList]);
 
   const formSchema = useMemo(() => z.object(schemaShape), [schemaShape]);
@@ -117,7 +115,7 @@ export function FormClient({
                   {meta.label}
                   {!meta.required ? ' (optional)' : null}
                 </FormLabel>
-                <Renderer meta={meta} field={field} />
+                <Renderer meta={meta} field={field as never} />
                 {fieldDescriptions[meta.name]}
                 <FormMessage />
               </FormItem>
