@@ -8,16 +8,16 @@ import type { PayloadEmailBlock } from '@/payload/payload-types';
 
 const requiredSchema = z
   .string()
-  .min(1, { message: REQUIRED_MESSAGE })
+  .min(1, { error: REQUIRED_MESSAGE })
   .refine((arg) => isEmail(arg), {
-    message: 'Must be a valid email address',
+    error: 'Must be a valid email address',
   });
 
 const optionalSchema = z
   .string()
   .min(0)
   .refine((arg) => arg === '' || isEmail(arg), {
-    message: 'Must be a valid email address',
+    error: 'Must be a valid email address',
   });
 
 export const emailConfig: FieldConfig<PayloadEmailBlock> = {

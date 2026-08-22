@@ -60,6 +60,26 @@ export function DateField({ meta, field }: Props) {
     [meta.allowedDates],
   );
 
+  // `mode` discriminates the DayPicker prop union, so it has to be a literal per branch.
+  const shared = {
+    selected: field.value,
+    onSelect: field.onChange,
+    disabled,
+    numberOfMonths: 1,
+    autoFocus: true,
+  };
+
+  function renderCalendar() {
+    switch (meta.mode) {
+      case 'multiple':
+        return <Calendar mode="multiple" {...shared} />;
+      case 'range':
+        return <Calendar mode="range" {...shared} />;
+      default:
+        return <Calendar mode="single" {...shared} />;
+    }
+  }
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -70,14 +90,7 @@ export function DateField({ meta, field }: Props) {
         </FormControl>
       </PopoverTrigger>
       <PopoverContent className="w-auto p-0" align="start">
-        <Calendar
-          mode={meta.mode}
-          selected={field.value}
-          onSelect={field.onChange}
-          disabled={disabled}
-          numberOfMonths={1}
-          initialFocus
-        />
+        {renderCalendar()}
       </PopoverContent>
     </Popover>
   );

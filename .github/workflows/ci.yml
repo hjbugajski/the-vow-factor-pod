@@ -14,22 +14,19 @@ jobs:
       checks: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v4
+        uses: actions/checkout@v6
 
-      - name: Install pnpm
-        uses: pnpm/action-setup@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
-        with:
-          node-version: '24.x'
-          cache: pnpm
-
-      - name: Install dependencies
-        run: pnpm install
+      - name: Setup
+        uses: ./.github/actions/setup
 
       - name: Format
         run: pnpm fmt:check
 
       - name: Lint
         run: pnpm lint:check
+
+      - name: Stylelint
+        run: pnpm stylelint:check
+
+      - name: Typecheck
+        run: pnpm typecheck

@@ -8,16 +8,16 @@ import type { PayloadPhoneNumberBlock } from '@/payload/payload-types';
 
 const requiredSchema = z
   .string()
-  .min(1, { message: REQUIRED_MESSAGE })
+  .min(1, { error: REQUIRED_MESSAGE })
   .refine((arg) => isMobilePhone(arg), {
-    message: 'Must be a valid phone number',
+    error: 'Must be a valid phone number',
   });
 
 const optionalSchema = z
   .string()
   .min(0)
   .refine((arg) => arg === '' || isMobilePhone(arg), {
-    message: 'Must be a valid phone number',
+    error: 'Must be a valid phone number',
   });
 
 export const phoneNumberConfig: FieldConfig<PayloadPhoneNumberBlock> = {
