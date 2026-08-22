@@ -1,5 +1,4 @@
-import { cache } from 'react';
-
+import { cacheLife, cacheTag } from 'next/cache';
 import { draftMode } from 'next/headers';
 import { notFound } from 'next/navigation';
 import { getPayload } from 'payload';
@@ -15,22 +14,29 @@ interface PageProps {
   params: Promise<{ slug: string[] }>;
 }
 
-const fetchCachedPage = cache(async ({ slug }: { slug: string[] }) => {
-  const segments = slug || ['home'];
-  const draftModePromise = draftMode();
-  const payloadPromise = getPayload({ config });
-  const [{ isEnabled: draft }, payload] = await Promise.all([draftModePromise, payloadPromise]);
+/**
+ * Draft mode is readable inside a caching scope, and when it is enabled the scope re-executes on
+ * every request without being persisted, so editors always see fresh content.
+ */
+const fetchCachedPage = async (slug: string[]) => {
+  'use cache';
+  const path = `/${(slug || ['home']).join('/')}`;
+
+  cacheLife('max');
+  cacheTag('pages', `page_${path}`);
+
+  const [{ isEnabled: draft }, payload] = await Promise.all([draftMode(), getPayload({ config })]);
   const result = await payload.find({
     collection: 'pages',
     draft,
     pagination: false,
     limit: 1,
     overrideAccess: draft,
-    where: { path: { equals: `/${segments.join('/')}` } },
+    where: { path: { equals: path } },
   });
 
-  return result.docs?.[0] || null;
-});
+  return { draft, page: result.docs?.[0] || null };
+};
 
 export async function generateStaticParams() {
   try {
@@ -51,7 +57,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({ params }: PageProps) {
   const { slug } = await params;
-  const page = await fetchCachedPage({ slug });
+  const { page } = await fetchCachedPage(slug);
 
   return {
     title: pageTitle(page?.title, metadata),
@@ -60,9 +66,8 @@ export async function generateMetadata({ params }: PageProps) {
 }
 
 export default async function Page({ params }: PageProps) {
-  const { isEnabled: draft } = await draftMode();
   const { slug } = await params;
-  const page = await fetchCachedPage({ slug });
+  const { draft, page } = await fetchCachedPage(slug);
 
   if (!page) {
     notFound();
