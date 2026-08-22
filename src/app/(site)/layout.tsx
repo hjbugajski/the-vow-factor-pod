@@ -67,7 +67,7 @@ const fetchCachedGlobal = async <T,>(slug: GlobalSlug) => {
 
   const payload = await getPayload({ config: payloadConfig });
 
-  return payload.findGlobal({ slug }) as Promise<T>;
+  return payload.findGlobal({ slug, overrideAccess: false }) as Promise<T>;
 };
 
 export default async function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

@@ -50,6 +50,10 @@ const setPath: CollectionAfterChangeHook<PayloadPagesCollection> = ({ context, d
   });
 };
 
+/**
+ * The navigation and footer globals populate page relationships and build their hrefs from the
+ * populated breadcrumbs, so a path change has to expire them alongside the page caches.
+ */
 const revalidatePage = (path: string) => {
   if (path === '/home') {
     revalidatePath('/');
@@ -58,6 +62,8 @@ const revalidatePage = (path: string) => {
   revalidatePath(path);
   revalidateTag(`page_${path}`, { expire: 0 });
   revalidateTag('pages', { expire: 0 });
+  revalidateTag('global_navigation', { expire: 0 });
+  revalidateTag('global_footer', { expire: 0 });
 };
 
 const revalidatePageAfterChange: CollectionAfterChangeHook<PayloadPagesCollection> = ({
@@ -68,6 +74,11 @@ const revalidatePageAfterChange: CollectionAfterChangeHook<PayloadPagesCollectio
   if (doc._status === 'published' && doc.path) {
     payload.logger.info(`Revalidating path: ${doc.path}`);
     revalidatePage(doc.path);
+
+    if (previousDoc?.path && previousDoc.path !== doc.path) {
+      payload.logger.info(`Revalidating previous path: ${previousDoc.path}`);
+      revalidatePage(previousDoc.path);
+    }
   }
 
   if (previousDoc?._status === 'published' && doc._status !== 'published' && previousDoc.path) {

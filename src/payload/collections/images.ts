@@ -1,4 +1,10 @@
-import type { CollectionAfterChangeHook, CollectionConfig, Field } from 'payload';
+import { revalidateTag } from 'next/cache';
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  CollectionConfig,
+  Field,
+} from 'payload';
 
 import { Role, hasRole } from '@/payload/access';
 import { linkGroup } from '@/payload/fields/link';
@@ -33,6 +39,30 @@ const addDataUrl: CollectionAfterChangeHook<PayloadImagesCollection> = async ({
   });
 };
 
+/**
+ * Image documents are populated into cached page entries, so a change here has to expire the page
+ * cache as well as the collection itself.
+ */
+const revalidatePages: CollectionAfterChangeHook<PayloadImagesCollection> = ({
+  doc,
+  req: { payload },
+}) => {
+  payload.logger.info(`Revalidating pages after image change: ${doc.id}`);
+  revalidateTag('pages', { expire: 0 });
+
+  return doc;
+};
+
+const revalidatePagesAfterDelete: CollectionAfterDeleteHook<PayloadImagesCollection> = ({
+  doc,
+  req: { payload },
+}) => {
+  payload.logger.info(`Revalidating pages after image delete: ${doc.id}`);
+  revalidateTag('pages', { expire: 0 });
+
+  return doc;
+};
+
 export const Images: CollectionConfig<'images'> = {
   slug: 'images',
   typescript: {
@@ -49,7 +79,8 @@ export const Images: CollectionConfig<'images'> = {
     delete: hasRole(Role.Admin),
   },
   hooks: {
-    afterChange: [addDataUrl],
+    afterChange: [addDataUrl, revalidatePages],
+    afterDelete: [revalidatePagesAfterDelete],
   },
   upload: {
     adminThumbnail: 'thumbnail',
